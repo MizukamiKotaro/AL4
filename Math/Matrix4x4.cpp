@@ -1,5 +1,7 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
+#include "calc.h"
+#include "../Transform/Transform.h"
 #include <assert.h>
 #include <cmath>
 
@@ -318,7 +320,7 @@ Matrix4x4 Matrix4x4::MakeAffinMatrix(const Vector3& scale, const Vector3& rotate
 }
 
 Matrix4x4 Matrix4x4::MakeAffinMatrix(const Transform& transform) {
-	return MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
+	return MakeAffinMatrix(transform.scale_, transform.rotate_, transform.translate_);
 }
 
 Matrix4x4 Matrix4x4::MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip) {
@@ -348,6 +350,82 @@ Matrix4x4 Matrix4x4::MakeViewportMatrix(float left, float top, float width, floa
 		0,0,maxDepth - minDepth,0,
 		left + width / 2,top + height / 2,minDepth,1
 	};
+	return result;
+}
+
+Matrix4x4 Matrix4x4::MakeRotateAxisAngle(const Vector3& axis, float angle)
+{
+	
+	Vector3 n = axis;
+
+	n = n.Normalize();
+
+	Matrix4x4 result = {
+		n.x * n.x * (1.0f - std::cosf(angle)) + std::cosf(angle), n.x * n.y * (1.0f - std::cosf(angle)) + n.z * std::sinf(angle),
+		n.x * n.z * (1.0f - std::cosf(angle)) - n.y * std::sinf(angle),0.0f,
+		n.x * n.y * (1.0f - std::cosf(angle)) - n.z * std::sinf(angle), n.y * n.y * (1.0f - std::cosf(angle)) + std::cosf(angle),
+		n.y * n.z * (1.0f - std::cosf(angle)) + n.x * std::sinf(angle),0.0f,
+		n.x * n.z * (1.0f - std::cosf(angle)) + n.y * std::sinf(angle), n.y * n.z * (1.0f - std::cosf(angle)) - n.x * std::sinf(angle),
+		n.z * n.z * (1.0f - std::cosf(angle)) + std::cosf(angle),0.0f,
+		0.0f,0.0f,0.0f,1.0f
+	};
+
+	return result;
+}
+
+Matrix4x4 Matrix4x4::DirectionToDirection(const Vector3& from, const Vector3& to)
+{
+	Vector3 u = from;
+	u = u.Normalize();
+	Vector3 v = to;
+	v = v.Normalize();
+
+	Vector3 n = Calc::Cross(u, v).Normalize();
+	// 魔逆の場合保留。MTの授業で
+
+	float cosfTheta = Calc::Dot(u, v);
+	float sinfTheta = Calc::Cross(u, v).Length();
+
+	if (u.x == -v.x && u.y == -v.y && u.z == -v.z) {
+		if (u.x != 0 || u.y != 0) {
+			n = { u.y,-u.z,0.0f };
+		}
+		else {
+			n = { u.z,0.0f,-u.x };
+		}
+
+		cosfTheta = -1;
+		sinfTheta = 0;
+	}
+
+	Matrix4x4 result = {
+		n.x * n.x * (1.0f - cosfTheta) + cosfTheta, n.x * n.y * (1.0f - cosfTheta) + n.z * sinfTheta,
+		n.x * n.z * (1.0f - cosfTheta) - n.y * sinfTheta,0.0f,
+		n.x * n.y * (1.0f - cosfTheta) - n.z * sinfTheta, n.y * n.y * (1.0f - cosfTheta) + cosfTheta,
+		n.y * n.z * (1.0f - cosfTheta) + n.x * sinfTheta,0.0f,
+		n.x * n.z * (1.0f - cosfTheta) + n.y * sinfTheta, n.y * n.z * (1.0f - cosfTheta) - n.x * sinfTheta,
+		n.z * n.z * (1.0f - cosfTheta) + cosfTheta,0.0f,
+		0.0f,0.0f,0.0f,1.0f
+	};
+
+	return result;
+
+}
+
+Matrix4x4 Matrix4x4::MakeRotateMatrix(const Quaternion& quaternion)
+{
+
+	Matrix4x4 result = {
+		std::powf(quaternion.w,2) + std::powf(quaternion.x,2) - std::powf(quaternion.y,2) - std::powf(quaternion.z,2),
+		2.0f * (quaternion.x * quaternion.y + quaternion.w * quaternion.z),2.0f * (quaternion.x * quaternion.z - quaternion.w * quaternion.y),0.0f,
+		2.0f * (quaternion.x * quaternion.y - quaternion.w * quaternion.z),
+		std::powf(quaternion.w,2) - std::powf(quaternion.x,2) + std::powf(quaternion.y,2) - std::powf(quaternion.z,2),
+		2.0f * (quaternion.y * quaternion.z + quaternion.w * quaternion.x),0.0f,
+		2.0f * (quaternion.x * quaternion.z + quaternion.w * quaternion.y),2.0f * (quaternion.y * quaternion.z - quaternion.w * quaternion.x),
+		std::powf(quaternion.w,2) - std::powf(quaternion.x,2) - std::powf(quaternion.y,2) + std::powf(quaternion.z,2),0.0f,
+		0.0f,0.0f,0.0f,1.0f
+	};
+
 	return result;
 }
 

@@ -146,6 +146,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Collision\Collision.cpp" />
+    <ClCompile Include="Ease\Ease.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="externals\imgui\imgui.cpp" />
     <ClCompile Include="externals\imgui\imgui_demo.cpp" />
     <ClCompile Include="externals\imgui\imgui_draw.cpp" />
@@ -153,6 +156,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="externals\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="externals\imgui\imgui_tables.cpp" />
     <ClCompile Include="externals\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="FollowCamera\FollowCamera.cpp" />
+    <ClCompile Include="GameScene\GameScene.cpp" />
+    <ClCompile Include="Goal\Goal.cpp" />
+    <ClCompile Include="Ground\Ground.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Kyoko\DebugLog.cpp" />
     <ClCompile Include="Kyoko\DirectXCommon.cpp" />
@@ -168,11 +175,23 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Math\calc.cpp" />
     <ClCompile Include="Math\Matrix3x3.cpp" />
     <ClCompile Include="Math\Matrix4x4.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="Object\AABB.cpp" />
+    <ClCompile Include="Object\OBB.cpp" />
+    <ClCompile Include="Object\Plane.cpp" />
+    <ClCompile Include="Object\Sphere.cpp" />
+    <ClCompile Include="Object\Triangle.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Skydome\Skydome.cpp" />
+    <ClCompile Include="Transform\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Collision\Collision.h" />
+    <ClInclude Include="Ease\Ease.h" />
+    <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="externals\imgui\imconfig.h" />
     <ClInclude Include="externals\imgui\imgui.h" />
     <ClInclude Include="externals\imgui\imgui_impl_dx12.h" />
@@ -181,6 +200,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="externals\imgui\imstb_rectpack.h" />
     <ClInclude Include="externals\imgui\imstb_textedit.h" />
     <ClInclude Include="externals\imgui\imstb_truetype.h" />
+    <ClInclude Include="FollowCamera\FollowCamera.h" />
+    <ClInclude Include="GameScene\GameScene.h" />
+    <ClInclude Include="Goal\Goal.h" />
+    <ClInclude Include="Ground\Ground.h" />
     <ClInclude Include="Kyoko\DebugLog.h" />
     <ClInclude Include="Kyoko\DirectXCommon.h" />
     <ClInclude Include="Kyoko\ImGuiManager.h" />
@@ -195,10 +218,20 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Math\calc.h" />
     <ClInclude Include="Math\Matrix3x3.h" />
     <ClInclude Include="Math\Matrix4x4.h" />
+    <ClInclude Include="Math\Quaternion.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Math\Vector4.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Object\AABB.h" />
+    <ClInclude Include="Object\Line.h" />
+    <ClInclude Include="Object\OBB.h" />
+    <ClInclude Include="Object\Plane.h" />
+    <ClInclude Include="Object\Quadrangle.h" />
+    <ClInclude Include="Object\Sphere.h" />
+    <ClInclude Include="Object\Triangle.h" />
+    <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Skydome\Skydome.h" />
+    <ClInclude Include="Transform\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />

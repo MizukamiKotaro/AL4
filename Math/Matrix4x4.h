@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector3.h"
-#include "../Transform.h"
+#include "Quaternion.h"
+
+class  Transform;
 
 struct Matrix4x4 {
 public:
@@ -60,6 +62,15 @@ public:
 	static Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom, float nearClip, float farClip);
 	//ビューポート変換行列
 	static Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
+
+	// 任意軸回転行列の作成
+	static Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);
+	// ある方向からある方向への回転
+	static Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
+
+	static Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+
+	static Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion) { return Matrix4x4::Multiply(vector, MakeRotateMatrix(quaternion)); }
 
 public:
 	float m[4][4];

@@ -54,11 +54,7 @@ Model::Model(const std::string& directoryPath, const std::string& fileName)
 	directionalLightData_->direction = { 0.0f,-1.0f,0.0f };
 	directionalLightData_->intensity = 1.0f;
 
-	scale_ = { 1.0f,1.0f,1.0f };
-	rotate_ = { 0.0f,0.0f,0.0f };
-	pos_ = { 0.0f,0.0f,0.0f };
-
-	worldMatrix_ = Matrix4x4::MakeAffinMatrix(scale_, rotate_, pos_);
+	transform_ = Transform();
 
 	uvScale_ = { 1.0f,1.0f,1.0f };
 	uvRotate_ = { 0.0f,0.0f,0.0f };
@@ -83,15 +79,16 @@ void Model::Initialize()
 void Model::Update()
 {
 
-	worldMatrix_ = Matrix4x4::MakeAffinMatrix(scale_, rotate_, pos_);
+	transform_.UpdateMatrix();
+
 	uvMatrix_ = Matrix4x4::MakeAffinMatrix(uvScale_, uvRotate_, uvPos_);
 }
 
 void Model::Draw(const Matrix4x4& viewProjection)
 {
 
-	transformationMatrixData_->World = worldMatrix_;
-	transformationMatrixData_->WVP = worldMatrix_ * viewProjection;
+	transformationMatrixData_->World = transform_.worldMat_;
+	transformationMatrixData_->WVP = transform_.worldMat_ * viewProjection;
 	materialData_->uvTransform = uvMatrix_;
 
 	TextureManager* texManager = TextureManager::GetInstance();

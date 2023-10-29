@@ -8,8 +8,7 @@
 #include "Kyoko/ImGuiManager.h"
 #include "externals/imgui/imgui.h"
 #include "Kyoko/ModelCommon.h"
-#include "Kyoko/Model.h"
-#include "Camera/Camera.h"
+#include "GameScene/GameScene.h"
 
 static ResourceLeackChecker leakCheck;
 
@@ -87,17 +86,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 
 #pragma region 最初のシーンの初期化
 
-	std::unique_ptr<Camera> camera = std::make_unique<Camera>();
-
-	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>();
-	//sprite->Initialize();
-	sprite->LoadTexture("Resources/uvChecker.png");
-
-	std::unique_ptr<Sprite> sprite2 = std::make_unique<Sprite>();
-	//sprite->Initialize();
-	sprite2->LoadTexture("Resources/uvChecker.png");
-
-	std::unique_ptr<Model> model = std::make_unique<Model>("Resources", "fence.obj");
+	
+	std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
+	gameScene->Initialize();
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -119,23 +110,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 
 #pragma region 最初のシーンの更新
 
-		camera->Update();
-
-		ImGui::Begin("sprite");
-		ImGui::DragFloat3("pos", &model->pos_.x, 0.01f);
-		ImGui::DragFloat3("scale", &model->scale_.x, 0.01f);
-		ImGui::DragFloat3("rotate", &model->rotate_.x, 0.01f);
-		ImGui::DragFloat3("cameraPos", &camera->pos_.x, 0.01f);
-		ImGui::DragFloat3("cameraScale", &camera->scale_.x, 0.01f);
-		ImGui::DragFloat3("cameraRotate", &camera->rotate_.x, 0.01f);
-		ImGui::End();
-
-		sprite2->rotate_.y += 0.01f;
-
-		sprite->Update();
-		sprite2->Update();
-
-		model->Update();
+		gameScene->Update();
 
 #pragma endregion 最初のシーンの更新
 
@@ -146,9 +121,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 
 #pragma region 最初のシーンの描画
 
-		//sprite->Draw();
-		//sprite2->Draw();
-		model->Draw(camera->GetViewProjection());
+		
+		gameScene->Draw();
 
 
 #pragma endregion 最初のシーンの描画

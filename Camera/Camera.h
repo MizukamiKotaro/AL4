@@ -1,6 +1,7 @@
 #pragma once
 #include "../Math/Vector3.h"
 #include "../Math/Matrix4x4.h"
+#include "../Transform/Transform.h"
 
 class Camera {
 
@@ -9,15 +10,15 @@ public:
 	Camera();
 	~Camera() = default;
 
+	void Initialize();
+
 	void Update();
 
 	const Matrix4x4 GetViewProjection() { return viewProjectionMatrix_; }
 
 public:
 
-	Vector3 scale_;
-	Vector3 rotate_;
-	Vector3 pos_;
+	Transform transform_;
 
 private:
 

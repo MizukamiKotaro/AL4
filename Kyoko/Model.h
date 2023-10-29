@@ -7,6 +7,7 @@
 #include "../Math/Vector2.h"
 #include "../Math/Vector4.h"
 #include "../Math/Matrix4x4.h"
+#include "../Transform/Transform.h"
 #include "ModelCommon.h"
 
 class Model
@@ -67,11 +68,7 @@ private:
 
 public:
 
-	Matrix4x4 worldMatrix_;
-
-	Vector3 scale_;
-	Vector3 rotate_;
-	Vector3 pos_;
+	Transform transform_;
 
 private:
 	Matrix4x4 uvMatrix_;
