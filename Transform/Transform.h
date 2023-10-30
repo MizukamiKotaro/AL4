@@ -13,6 +13,10 @@ public:
 
 	bool IsCollisionXZ(const Transform& transform);
 
+	void SetWorldTranslateParent(const Transform* transform);
+
+	void ClearWorldTranslateParent();
+
 public:
 
 	Vector3 scale_;

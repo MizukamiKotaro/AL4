@@ -53,3 +53,19 @@ bool Transform::IsCollisionXZ(const Transform& transform)
 
 	return false;
 }
+
+void Transform::SetWorldTranslateParent(const Transform* transform)
+{
+	if (!worldTranslateParent_) {
+		worldTranslateParent_ = transform;
+		translate_ -= transform->worldPos_;
+	}
+}
+
+void Transform::ClearWorldTranslateParent()
+{
+	if (worldTranslateParent_) {
+		translate_ += worldTranslateParent_->worldPos_;
+		worldTranslateParent_ = nullptr;
+	}
+}
