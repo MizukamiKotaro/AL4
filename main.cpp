@@ -1,14 +1,14 @@
 #include "Kyoko/WinApp/WinApp.h"
 #include "Kyoko/ResourceLeakChecker.h"
-#include "Kyoko/DirectXCommon.h"
+#include "Kyoko/DirectXCommon/DirectXCommon.h"
 #include "Input/Input.h"
-#include "Kyoko/SpriteCommon.h"
-#include "Kyoko/Sprite.h"
-#include "Kyoko/TextureManager.h"
-#include "Kyoko/ImGuiManager.h"
+#include "SpriteCommon/SpriteCommon.h"
+#include "SpriteCommon/Sprite/Sprite.h"
+#include "TextureManager/TextureManager.h"
+#include "ImGuiManager/ImGuiManager.h"
 #include "externals/imgui/imgui.h"
-#include "Kyoko/ModelCommon.h"
-#include "GameScene/GameScene.h"
+#include "ModelCommon/ModelCommon.h"
+#include "SceneManager/GameScene/GameScene.h"
 
 static ResourceLeackChecker leakCheck;
 

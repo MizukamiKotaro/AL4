@@ -5,55 +5,95 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{4489984c-89d1-47e6-8f80-b5766a090682}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Math">
-      <UniqueIdentifier>{90bac38d-4754-48e5-b188-b039fc70a435}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Math">
-      <UniqueIdentifier>{8cfe2ce3-efbf-4740-8be4-81978b9446d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\include">
-      <UniqueIdentifier>{31b155cc-5f6a-4841-a856-a300be5e580e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{bb920b16-437b-4c88-945e-f165f871c387}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Skydome">
-      <UniqueIdentifier>{1d1a327d-3eab-406e-bb10-8edaee01f448}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enemy">
-      <UniqueIdentifier>{e763f5e5-25f9-43d9-aac6-9d754afa5d8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FollowCamera">
-      <UniqueIdentifier>{dbf2925c-22c8-47e8-b52d-0be5840f9d89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{fb90f6c6-8e02-452f-83ad-17c32aa2ae51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Ground">
-      <UniqueIdentifier>{b6a638a1-fd17-45cd-9e74-17f03be3173c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameScene">
-      <UniqueIdentifier>{2b431884-6ce6-4206-839a-17134c83cb13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Ease">
-      <UniqueIdentifier>{d7af4680-cad2-47fc-a3a4-9abc040d1b7f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Kyoko">
       <UniqueIdentifier>{65a4d997-070c-40bb-b6b0-2e3a92c9c452}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Kyoko\Audio">
-      <UniqueIdentifier>{0b7168bc-5ef3-4a00-835b-3adf52cb08e3}</UniqueIdentifier>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{6ee14d7b-85ce-4263-bb5c-fb70e1847faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{9cc16988-42fd-4fdd-964a-643694ba2671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Ease">
+      <UniqueIdentifier>{d7af4680-cad2-47fc-a3a4-9abc040d1b7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{4120cedc-196e-4fe0-8236-1ac05bdbf0bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Enemy">
+      <UniqueIdentifier>{e763f5e5-25f9-43d9-aac6-9d754afa5d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\FollowCamera">
+      <UniqueIdentifier>{dbf2925c-22c8-47e8-b52d-0be5840f9d89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Ground">
+      <UniqueIdentifier>{b6a638a1-fd17-45cd-9e74-17f03be3173c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneManager">
+      <UniqueIdentifier>{d297916b-5bda-4966-9e9a-6b2a725b03ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneManager\GameScene">
+      <UniqueIdentifier>{2b431884-6ce6-4206-839a-17134c83cb13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{fb90f6c6-8e02-452f-83ad-17c32aa2ae51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Math">
+      <UniqueIdentifier>{90bac38d-4754-48e5-b188-b039fc70a435}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Skydome">
+      <UniqueIdentifier>{1d1a327d-3eab-406e-bb10-8edaee01f448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{fc67084e-5acc-4e96-b9dd-5b43abfc3cc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kyoko\WinApp">
+      <UniqueIdentifier>{7acf753e-31b8-4d35-8761-848611dfcfbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Goal">
+      <UniqueIdentifier>{28663132-b4b2-4be6-aa34-4145442bddb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGuiManager">
+      <UniqueIdentifier>{61960401-1035-4ed7-a429-da54f1d2487f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Shape">
+      <UniqueIdentifier>{da58ad2c-1cb5-40eb-8001-61f6f7e95f77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kyoko\DirectXCommon">
+      <UniqueIdentifier>{c1090923-3935-4fd5-9c73-6b42cefb2cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Kyoko\DebugLog">
+      <UniqueIdentifier>{56c4fd32-79fe-4a2f-9f8e-812221185927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelCommon">
+      <UniqueIdentifier>{2d57b261-8b7f-4bab-88ab-1b98015a4772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelCommon\Model">
+      <UniqueIdentifier>{3dc6cd12-d98a-4f79-b95b-bddbfe67cf40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextureManager">
+      <UniqueIdentifier>{76f825fe-5e83-4627-a761-524c232dac2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpriteCommon">
+      <UniqueIdentifier>{e4776960-d749-44d0-9fda-de1a5647c976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SpriteCommon\Sprite">
+      <UniqueIdentifier>{dc697321-1d57-47ea-924a-d5ccef90f49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Camera">
+      <UniqueIdentifier>{d9bce335-8d72-41ac-90b3-ec52fb3e61bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Collision">
+      <UniqueIdentifier>{6deae854-51f4-4f19-92e5-72eb4d3629e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Transform">
+      <UniqueIdentifier>{28eda1c2-c864-4120-9f08-11d27768fe55}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,107 +121,107 @@
     <ClCompile Include="externals\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Vector2.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector3.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix4x4.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix3x3.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\calc.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Kyoko\DebugLog.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Kyoko\DirectXCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Kyoko\Sprite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Kyoko\SpriteCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Kyoko\Kyoko.cpp">
       <Filter>Kyoko</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\Audio.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager\GameScene\GameScene.cpp">
+      <Filter>SceneManager\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\Input.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
     <ClCompile Include="Kyoko\WinApp\WinApp.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Kyoko\WinApp</Filter>
     </ClCompile>
-    <ClCompile Include="Kyoko\TextureManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\Enemy\Enemy.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Kyoko\ImGuiManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\FollowCamera\FollowCamera.cpp">
+      <Filter>Game\FollowCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Kyoko\ModelCommon.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\Ground\Ground.cpp">
+      <Filter>Game\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="Kyoko\Model.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\Goal\Goal.cpp">
+      <Filter>Game\Goal</Filter>
     </ClCompile>
-    <ClCompile Include="Camera\Camera.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\Player\Player.cpp">
+      <Filter>Game\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Skydome\Skydome.cpp">
-      <Filter>Skydome</Filter>
+    <ClCompile Include="Game\Skydome\Skydome.cpp">
+      <Filter>Game\Skydome</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy\Enemy.cpp">
-      <Filter>Enemy</Filter>
+    <ClCompile Include="ImGuiManager\ImGuiManager.cpp">
+      <Filter>ImGuiManager</Filter>
     </ClCompile>
-    <ClCompile Include="FollowCamera\FollowCamera.cpp">
-      <Filter>FollowCamera</Filter>
+    <ClCompile Include="Kyoko\DirectXCommon\DirectXCommon.cpp">
+      <Filter>Kyoko\DirectXCommon</Filter>
     </ClCompile>
-    <ClCompile Include="Player\Player.cpp">
-      <Filter>Player</Filter>
+    <ClCompile Include="Kyoko\DebugLog\DebugLog.cpp">
+      <Filter>Kyoko\DebugLog</Filter>
     </ClCompile>
-    <ClCompile Include="Ground\Ground.cpp">
-      <Filter>Ground</Filter>
+    <ClCompile Include="ModelCommon\ModelCommon.cpp">
+      <Filter>ModelCommon</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene\GameScene.cpp">
-      <Filter>GameScene</Filter>
+    <ClCompile Include="ModelCommon\Model\Model.cpp">
+      <Filter>ModelCommon\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Ease\Ease.cpp">
-      <Filter>Ease</Filter>
+    <ClCompile Include="TextureManager\TextureManager.cpp">
+      <Filter>TextureManager</Filter>
     </ClCompile>
-    <ClCompile Include="Transform\Transform.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="SpriteCommon\SpriteCommon.cpp">
+      <Filter>SpriteCommon</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Quaternion.cpp">
-      <Filter>ソース ファイル\Math</Filter>
+    <ClCompile Include="SpriteCommon\Sprite\Sprite.cpp">
+      <Filter>SpriteCommon\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\Collision.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Shape\AABB.cpp">
+      <Filter>Utils\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Object\AABB.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Math\calc.cpp">
+      <Filter>Utils\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Object\OBB.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Camera\Camera.cpp">
+      <Filter>Utils\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Plane.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Collision\Collision.cpp">
+      <Filter>Utils\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Sphere.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Ease\Ease.cpp">
+      <Filter>Utils\Ease</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Triangle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Math\Matrix3x3.cpp">
+      <Filter>Utils\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Goal\Goal.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Utils\Math\Matrix4x4.cpp">
+      <Filter>Utils\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Kyoko\Audio\Audio.cpp">
-      <Filter>Kyoko\Audio</Filter>
+    <ClCompile Include="Utils\Shape\OBB.cpp">
+      <Filter>Utils\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Shape\Plane.cpp">
+      <Filter>Utils\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Shape\Sphere.cpp">
+      <Filter>Utils\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Transform\Transform.cpp">
+      <Filter>Utils\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Shape\Triangle.cpp">
+      <Filter>Utils\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Math\Vector2.cpp">
+      <Filter>Utils\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Math\Vector3.cpp">
+      <Filter>Utils\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Math\Quaternion.cpp">
+      <Filter>Utils\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,116 +249,119 @@
     <ClInclude Include="externals\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Vector2.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector3.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector4.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix3x3.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix4x4.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\calc.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Kyoko\DebugLog.h">
-      <Filter>ヘッダー ファイル\include</Filter>
-    </ClInclude>
-    <ClInclude Include="Kyoko\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\include</Filter>
-    </ClInclude>
-    <ClInclude Include="Kyoko\ResourceLeakChecker.h">
-      <Filter>ヘッダー ファイル\include</Filter>
-    </ClInclude>
-    <ClInclude Include="Kyoko\Sprite.h">
-      <Filter>ヘッダー ファイル\include</Filter>
-    </ClInclude>
-    <ClInclude Include="Kyoko\SpriteCommon.h">
-      <Filter>ヘッダー ファイル\include</Filter>
-    </ClInclude>
     <ClInclude Include="Kyoko\Kyoko.h">
       <Filter>Kyoko</Filter>
     </ClInclude>
+    <ClInclude Include="Audio\Audio.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager\GameScene\GameScene.h">
+      <Filter>SceneManager\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Kyoko\ResourceLeakChecker.h">
+      <Filter>Kyoko</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Enemy\Enemy.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FollowCamera\FollowCamera.h">
+      <Filter>Game\FollowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Goal\Goal.h">
+      <Filter>Game\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Ground\Ground.h">
+      <Filter>Game\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player\Player.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Skydome\Skydome.h">
+      <Filter>Game\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager\ImGuiManager.h">
+      <Filter>ImGuiManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Input.h">
+      <Filter>Input</Filter>
+    </ClInclude>
     <ClInclude Include="Kyoko\WinApp\WinApp.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+      <Filter>Kyoko\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="Kyoko\TextureManager.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+    <ClInclude Include="Kyoko\DirectXCommon\DirectXCommon.h">
+      <Filter>Kyoko\DirectXCommon</Filter>
     </ClInclude>
-    <ClInclude Include="Kyoko\ImGuiManager.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+    <ClInclude Include="Kyoko\DebugLog\DebugLog.h">
+      <Filter>Kyoko\DebugLog</Filter>
     </ClInclude>
-    <ClInclude Include="Kyoko\ModelCommon.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+    <ClInclude Include="ModelCommon\Model\Model.h">
+      <Filter>ModelCommon\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Kyoko\Model.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+    <ClInclude Include="ModelCommon\ModelCommon.h">
+      <Filter>ModelCommon</Filter>
     </ClInclude>
-    <ClInclude Include="Camera\Camera.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+    <ClInclude Include="TextureManager\TextureManager.h">
+      <Filter>TextureManager</Filter>
     </ClInclude>
-    <ClInclude Include="Skydome\Skydome.h">
-      <Filter>Skydome</Filter>
+    <ClInclude Include="SpriteCommon\SpriteCommon.h">
+      <Filter>SpriteCommon</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy\Enemy.h">
-      <Filter>Enemy</Filter>
+    <ClInclude Include="SpriteCommon\Sprite\Sprite.h">
+      <Filter>SpriteCommon\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="FollowCamera\FollowCamera.h">
-      <Filter>FollowCamera</Filter>
+    <ClInclude Include="Utils\Shape\AABB.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Player\Player.h">
-      <Filter>Player</Filter>
+    <ClInclude Include="Utils\Math\calc.h">
+      <Filter>Utils\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Ground\Ground.h">
-      <Filter>Ground</Filter>
+    <ClInclude Include="Utils\Camera\Camera.h">
+      <Filter>Utils\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Ease\Ease.h">
-      <Filter>Ease</Filter>
+    <ClInclude Include="Utils\Collision\Collision.h">
+      <Filter>Utils\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene\GameScene.h">
-      <Filter>GameScene</Filter>
+    <ClInclude Include="Utils\Ease\Ease.h">
+      <Filter>Utils\Ease</Filter>
     </ClInclude>
-    <ClInclude Include="Transform\Transform.h">
-      <Filter>ヘッダー ファイル\include</Filter>
+    <ClInclude Include="Utils\Shape\Line.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Math\Quaternion.h">
-      <Filter>ヘッダー ファイル\Math</Filter>
+    <ClInclude Include="Utils\Math\Matrix3x3.h">
+      <Filter>Utils\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\Collision.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Math\Matrix4x4.h">
+      <Filter>Utils\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Object\AABB.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Shape\OBB.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Line.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Shape\Plane.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Object\OBB.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Shape\Quadrangle.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Plane.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Math\Quaternion.h">
+      <Filter>Utils\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Quadrangle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Shape\Sphere.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Sphere.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Transform\Transform.h">
+      <Filter>Utils\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Triangle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Shape\Triangle.h">
+      <Filter>Utils\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Goal\Goal.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Utils\Math\Vector2.h">
+      <Filter>Utils\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Kyoko\Audio\Audio.h">
-      <Filter>Kyoko\Audio</Filter>
+    <ClInclude Include="Utils\Math\Vector3.h">
+      <Filter>Utils\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Math\Vector4.h">
+      <Filter>Utils\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

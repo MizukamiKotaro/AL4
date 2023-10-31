@@ -1,8 +1,8 @@
 #pragma once
 
-#include "DirectXCommon.h"
+#include "DirectXCommon/DirectXCommon.h"
 #include "WinApp/WinApp.h"
-#include "TextureManager.h"
+#include "../TextureManager/TextureManager.h"
 #include "ResourceLeakChecker.h"
 
 //class Kyoko
