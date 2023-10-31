@@ -7,6 +7,8 @@ Enemy::Enemy()
 {
 	models_.push_back(std::make_unique<Model>("Resources/EnemyBody", "EnemyBody.obj"));
 	models_.push_back(std::make_unique<Model>("Resources/EnemyJoint1", "EnemyJoint1.obj"));
+
+	parameter_ = 0.0f;
 }
 
 void Enemy::Initialize() {

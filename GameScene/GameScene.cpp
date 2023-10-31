@@ -33,6 +33,8 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	skydome_->Update();
+
 	ground_->Update();
 
 	goal_->Update();

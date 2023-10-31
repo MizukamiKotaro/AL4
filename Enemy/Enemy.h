@@ -40,5 +40,5 @@ private:
 
 	std::vector<std::unique_ptr<Model>> models_;
 
-	float parameter_ = 0.0f;
+	float parameter_;
 };

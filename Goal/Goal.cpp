@@ -5,8 +5,9 @@
 
 Goal::Goal()
 {
-
 	model_ = std::make_unique<Model>("Resources/Cube", "Cube.obj");
+
+	parameter_ = 0.0f;
 }
 
 void Goal::Initialize() {

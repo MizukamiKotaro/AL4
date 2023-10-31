@@ -31,5 +31,5 @@ private:
 
 	std::unique_ptr<Model> model_;
 
-	float parameter_ = 0.0f;
+	float parameter_;
 };

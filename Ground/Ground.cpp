@@ -7,6 +7,8 @@ Ground::Ground()
 
 	for (int i = 0; i < 3; i++) {
 		models_.push_back(std::make_unique<Model>("Resources/ground", "floor.obj"));
+
+		moveParameter_ = 0.0f;
 	}
 }
 

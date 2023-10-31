@@ -12,6 +12,14 @@ Player::Player()
 	models_.push_back(std::make_unique<Model>("Resources/float_Head", "float_Head.obj"));
 	models_.push_back(std::make_unique<Model>("Resources/float_L_Arm", "float_L_Arm.obj"));
 	models_.push_back(std::make_unique<Model>("Resources/float_R_Arm", "float_R_Arm.obj"));
+
+	camera_ = nullptr;
+
+	isNowOnFloor_ = false;
+	isOnFloor_ = false;
+	isJump_ = false;
+	velocity_ = {};
+	floatingParameter_ = 0.0f;
 }
 
 void Player::Initialize() 
@@ -201,9 +209,11 @@ void Player::BehaviorRootUpdate() {
 		/*Vector3 rotate = Vector3{ velocity_.x,0.0f,velocity_.z }.Normalize();
 		Vector3 pos = Vector3{ camera_->transform_.translate_.x,0.0f,camera_->transform_.translate_.z };
 		Vector3 pos1 = Vector3{ transform_.translate_.x,0.0f,transform_.translate_.z };
-		Vector3 rotate1 = Vector3{ pos - pos1 }.Normalize();
-		Matrix4x4 a = Matrix4x4::DirectionToDirection(rotate1, rotate);
-		transform_.rotate_ = (rotate1 *a).Normalize();*/
+		Vector3 rotate1 = Vector3{ pos - pos1 }.Normalize();*/
+		//Matrix4x4 a = Matrix4x4::DirectionToDirection(rotate1, rotate);
+		//transform_.rotate_ = (rotate1 *a).Normalize();
+
+		//transform_.SetOtherRotateMatrix(rotate1, rotate);
 
 		// 求めたaの値がtransform_.rotate_.yの回転行列な気がする。matrixにかければ変わるだろうけどUpdateせれて戻るからどうすればいいかわからん。
 		// transform_.rotate_の変化前と変化後でmatrix作れればうまくいく気がするけど、変化後のyが不明。

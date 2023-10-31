@@ -17,6 +17,10 @@ public:
 
 	void ClearWorldTranslateParent();
 
+	void SetOtherRotateMatrix(const Matrix4x4& mat);
+
+	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to);
+
 public:
 
 	Vector3 scale_;
@@ -30,4 +34,9 @@ public:
 	const Transform* parent_ = nullptr;
 
 	const Transform* worldTranslateParent_ = nullptr;
+
+	Matrix4x4 otherRotateMat_;
+
+	bool isUseOtherRotateMat_;
+
 };

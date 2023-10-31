@@ -161,6 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Goal\Goal.cpp" />
     <ClCompile Include="Ground\Ground.cpp" />
     <ClCompile Include="Input\Input.cpp" />
+    <ClCompile Include="Kyoko\Audio\Audio.cpp" />
     <ClCompile Include="Kyoko\DebugLog.cpp" />
     <ClCompile Include="Kyoko\DirectXCommon.cpp" />
     <ClCompile Include="Kyoko\ImGuiManager.cpp" />
@@ -204,6 +205,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="GameScene\GameScene.h" />
     <ClInclude Include="Goal\Goal.h" />
     <ClInclude Include="Ground\Ground.h" />
+    <ClInclude Include="Kyoko\Audio\Audio.h" />
     <ClInclude Include="Kyoko\DebugLog.h" />
     <ClInclude Include="Kyoko\DirectXCommon.h" />
     <ClInclude Include="Kyoko\ImGuiManager.h" />
