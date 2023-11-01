@@ -201,19 +201,20 @@ void Player::BehaviorRootUpdate() {
 	const float pi = std::numbers::pi_v<float>;
 
 	if (velocity_.x == 0 && velocity_.z == 0) {
-		transform_.rotate_.y = camera_->transform_.rotate_.y + pi;
+		transform_.rotate_.y = camera_->transform_.rotate_.y;
+		transform_.isUseOtherRotateMat_ = false;
 	}
 	else {
 		transform_.rotate_.y = atan2(velocity_.x, velocity_.z);
 
-		/*Vector3 rotate = Vector3{ velocity_.x,0.0f,velocity_.z }.Normalize();
+		Vector3 rotate = Vector3{ velocity_.x,0.0f,velocity_.z }.Normalize();
 		Vector3 pos = Vector3{ camera_->transform_.translate_.x,0.0f,camera_->transform_.translate_.z };
 		Vector3 pos1 = Vector3{ transform_.translate_.x,0.0f,transform_.translate_.z };
-		Vector3 rotate1 = Vector3{ pos - pos1 }.Normalize();*/
+		Vector3 rotate1 = Vector3{ pos - pos1 }.Normalize();
 		//Matrix4x4 a = Matrix4x4::DirectionToDirection(rotate1, rotate);
 		//transform_.rotate_ = (rotate1 *a).Normalize();
 
-		//transform_.SetOtherRotateMatrix(rotate1, rotate);
+		transform_.SetOtherRotateMatrix(rotate1, rotate);
 
 		// 求めたaの値がtransform_.rotate_.yの回転行列な気がする。matrixにかければ変わるだろうけどUpdateせれて戻るからどうすればいいかわからん。
 		// transform_.rotate_の変化前と変化後でmatrix作れればうまくいく気がするけど、変化後のyが不明。
