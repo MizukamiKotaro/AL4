@@ -2,7 +2,7 @@
 #include <cassert>
 #include "../Kyoko/DebugLog/DebugLog.h"
 #include <format>
-#include "../externals/DirectXTex/d3dx12.h"
+#include "../Externals/DirectXTex/d3dx12.h"
 #include "../Kyoko/DirectXCommon/DirectXCommon.h"
 
 TextureManager* TextureManager::GetInstance()

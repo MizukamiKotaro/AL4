@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\nlohmann;$(ProjectDir)..\External\imgui;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)..\External\DirectXTex\include;$(ProjectDir)..\External\nlohmann;$(ProjectDir)..\External\imgui;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -159,6 +165,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Ground\Ground.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
     <ClCompile Include="Game\Skydome\Skydome.cpp" />
+    <ClCompile Include="GlobalVariables\GlobalVariables.cpp" />
     <ClCompile Include="ImGuiManager\ImGuiManager.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Kyoko\DebugLog\DebugLog.cpp" />
@@ -204,6 +211,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Ground\Ground.h" />
     <ClInclude Include="Game\Player\Player.h" />
     <ClInclude Include="Game\Skydome\Skydome.h" />
+    <ClInclude Include="GlobalVariables\GlobalVariables.h" />
     <ClInclude Include="ImGuiManager\ImGuiManager.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Kyoko\DebugLog\DebugLog.h" />

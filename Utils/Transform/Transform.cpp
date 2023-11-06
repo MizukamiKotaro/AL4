@@ -16,6 +16,11 @@ Transform::Transform()
 	worldPos_.z = worldMat_.m[3][2];
 }
 
+void Transform::Initialize()
+{
+	
+}
+
 void Transform::UpdateMatrix()
 {
 
@@ -82,5 +87,12 @@ void Transform::SetOtherRotateMatrix(const Matrix4x4& mat)
 void Transform::SetOtherRotateMatrix(const Vector3& from, const Vector3& to)
 {
 	otherRotateMat_ = Matrix4x4::DirectionToDirection(from, to);
+	isUseOtherRotateMat_ = true;
+}
+
+void Transform::SetOtherRotateMatrix(const Vector3& from, const Vector3& to, const Matrix4x4& multiplyMat)
+{
+	otherRotateMat_ = Matrix4x4::DirectionToDirection(from, to);
+	otherRotateMat_ = otherRotateMat_ * multiplyMat;
 	isUseOtherRotateMat_ = true;
 }

@@ -7,6 +7,8 @@ class Transform {
 public:
 	Transform();
 
+	void Initialize();
+
 	void UpdateMatrix();
 
 	Vector3 GetWorldPosition();
@@ -20,6 +22,8 @@ public:
 	void SetOtherRotateMatrix(const Matrix4x4& mat);
 
 	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to);
+
+	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to, const Matrix4x4& multiplyMat);
 
 public:
 

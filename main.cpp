@@ -9,6 +9,7 @@
 #include "externals/imgui/imgui.h"
 #include "ModelCommon/ModelCommon.h"
 #include "SceneManager/GameScene/GameScene.h"
+#include "GlobalVariables/GlobalVariables.h"
 
 static ResourceLeackChecker leakCheck;
 
@@ -46,6 +47,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 
 	SpriteCommon* spriteCommon = SpriteCommon::GetInstance();
 	spriteCommon->Initialize();
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	globalVariables->LoadFiles();
 
 #pragma endregion 基盤システムの初期化
 
@@ -104,6 +108,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 		}
 		ImGuiManager::Begin();
 		input->Update();
+
+		globalVariables->Update();
 
 #pragma endregion 基盤システムの更新
 

@@ -3,7 +3,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <string>
-#include "../externals/DirectXTex/DirectXTex.h"
+#include "../Externals/DirectXTex/DirectXTex.h"
 #include <vector>
 
 class TextureManager {

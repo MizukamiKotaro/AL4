@@ -17,6 +17,13 @@ class Input
 {
 public:
 
+	enum class GamePadButton {
+		kA,
+		kB,
+		kX,
+		kY
+	};
+
 	// namespace省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -50,13 +57,21 @@ public:
 
 	Vector2 GetGamePadRStick();
 
-	bool GetGamePadButtonA();
+	bool PressedGamePadButton(GamePadButton button);
+
+	bool PressingGamePadButton(GamePadButton button);
+
+	bool ReleasedGamePadButton(GamePadButton button);
 
 private:
 	Input() = default;
 	~Input() = default;
 	Input(const Input&) = delete;
 	const Input& operator=(const Input&) = delete;
+
+	bool GetGamePadButton(GamePadButton button);
+
+	bool GetPreGamePadButton(GamePadButton button);
 
 private:
 	WinApp* winApp_ = nullptr;
