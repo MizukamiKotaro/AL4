@@ -62,6 +62,38 @@ bool Transform::IsCollisionXZ(const Transform& transform)
 	return false;
 }
 
+bool Transform::IsCollisionXY(const Transform& transform)
+{
+	Vector2 min0 = { worldPos_.x - scale_.x,worldPos_.y - scale_.y };
+	Vector2 max0 = { worldPos_.x + scale_.x,worldPos_.y + scale_.y };
+
+	Vector2 min1 = { transform.worldPos_.x - transform.scale_.x,transform.worldPos_.y - transform.scale_.y };
+	Vector2 max1 = { transform.worldPos_.x + transform.scale_.x,transform.worldPos_.y + transform.scale_.y };
+
+	if (min0.x <= max1.x && max0.x >= min1.x &&
+		min0.y <= max1.y && max0.y >= min1.y) {
+		return true;
+	}
+
+	return false;
+}
+
+bool Transform::IsCollisionYZ(const Transform& transform)
+{
+	Vector2 min0 = { worldPos_.y - scale_.y,worldPos_.z - scale_.z };
+	Vector2 max0 = { worldPos_.y + scale_.y,worldPos_.z + scale_.z };
+
+	Vector2 min1 = { transform.worldPos_.y - transform.scale_.y,transform.worldPos_.z - transform.scale_.z };
+	Vector2 max1 = { transform.worldPos_.y + transform.scale_.y,transform.worldPos_.z + transform.scale_.z };
+
+	if (min0.x <= max1.x && max0.x >= min1.x &&
+		min0.y <= max1.y && max0.y >= min1.y) {
+		return true;
+	}
+
+	return false;
+}
+
 void Transform::SetWorldTranslateParent(const Transform* transform)
 {
 	if (!worldTranslateParent_) {

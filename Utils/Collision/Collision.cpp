@@ -1116,3 +1116,588 @@ bool Collision::IsCollision(const OBB& a, const OBB& b) {
 
 	return false;
 }
+
+void Collision::CollisionEdit(const std::vector<std::vector<Transform>>& mapchip, const std::vector<std::vector<int>>& type, Transform* transform, Vector3* velocity)
+{
+
+	bool isJump = false;
+
+	if (velocity->x != 0 || velocity->y != 0) {
+
+		Transform sub = *transform;
+		bool finishFlag = false;
+
+		for (int y = 0; y < int(mapchip.size()); y++) {
+			for (int x = 0; x < int(mapchip[y].size()); x++) {
+
+				if (sub.IsCollisionXY(mapchip[y][x])) {
+
+					int nextY = y;
+					int nextX = x;
+
+					switch (type[y][x])
+					{
+					case 0:
+						// 何もない
+						break;
+
+					case 1:
+						// 通れないブロックの場合
+
+						if (velocity->x == 0 && velocity->y != 0) {
+							// x軸方向の移動がない場合
+							if (velocity->x > 0) {
+								sub.translate_.x = mapchip[y][x].worldPos_.x - mapchip[y][x].scale_.x - 0.001f;
+							}
+							else {
+								sub.translate_.x = mapchip[y][x].worldPos_.x + mapchip[y][x].scale_.x + 0.001f;
+							}
+						}
+						else if (velocity->y == 0 && velocity->x != 0) {
+							// y軸方向の移動がない場合
+							if (velocity->y > 0) {
+								sub.translate_.y = mapchip[y][x].worldPos_.y - mapchip[y][x].scale_.y - 0.001f;
+							}
+							else {
+								sub.translate_.y = mapchip[y][x].worldPos_.y + mapchip[y][x].scale_.y + 0.001f;
+							}
+						}
+						else {
+							// 他のすべての場合
+							bool isFirstX = false;
+
+							Vector2 beforePos = { sub.translate_.x - velocity->x , sub.translate_.y - velocity->y };
+							Vector2 chipPos = { mapchip[y][x].worldPos_.x,mapchip[y][x].worldPos_.y };
+
+							if (velocity->x > 0) {
+								// xが正の方向に移動する場合
+								if (velocity->y < 0) {
+									// yが負の方向に移動する場合
+									if (beforePos.x < chipPos.x - mapchip[y][x].scale_.x - sub.scale_.x) {
+										if (beforePos.y < chipPos.y + mapchip[y][x].scale_.y + sub.scale_.y) {
+											isFirstX = true;
+										}
+										else {
+											if (Calc::Outer({ (chipPos.x - mapchip[y][x].scale_.x) - (beforePos.x + sub.scale_.x), (chipPos.y + mapchip[y][x].scale_.y) - (beforePos.y - sub.scale_.y) },
+												{ velocity->x,velocity->y }) > 0) {
+												isFirstX = false;
+											}
+											else {
+												isFirstX = true;
+											}
+										}
+									}
+									else {
+										isFirstX = false;
+									}
+
+									if (isFirstX) {
+										// x軸から先に修正する
+
+										sub.translate_.x = chipPos.x - mapchip[y][x].scale_.x - sub.scale_.x - 0.001f;
+
+										sub.UpdateMatrix();
+										nextX -= 1;
+
+										if (y == int(mapchip.size())) {
+											switch (type[y][nextX]) {
+											case 0:
+												
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[y][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = chipPos.y + mapchip[y][nextX].scale_.y + sub.scale_.y + 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextY += 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = mapchip[nextY][nextX].worldPos_.y + mapchip[nextY][nextX].scale_.y + sub.scale_.y + 0.001f;
+												}
+												break;
+											case 2:
+
+												isJump = true;
+												break;
+
+											default:
+												break;
+											}
+										}
+
+									}
+									else {
+										// y軸から修正する
+
+										velocity->y = 0.0f;
+										sub.translate_.y = chipPos.y + mapchip[y][nextX].scale_.y + sub.scale_.y + 0.001f;
+
+										sub.UpdateMatrix();
+										nextY -= 1;
+
+										if (x == int(mapchip.size())) {
+											switch (type[nextY][x]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][x])) {
+													sub.translate_.x = chipPos.x - mapchip[nextY][x].scale_.x - sub.scale_.x - 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextX += 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													sub.translate_.x = chipPos.x - mapchip[nextY][nextX].scale_.x - sub.scale_.x - 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+									}
+
+									finishFlag = true;
+								}
+								else {
+									// yが正の方向に移動する場合
+									if (beforePos.x < chipPos.x - mapchip[y][x].scale_.x - sub.scale_.x) {
+										if (beforePos.y > chipPos.y - mapchip[y][x].scale_.y - sub.scale_.y) {
+											isFirstX = true;
+										}
+										else {
+											if (Calc::Outer({ (chipPos.x - mapchip[y][x].scale_.x) - (beforePos.x + sub.scale_.x), (chipPos.y - mapchip[y][x].scale_.y) - (beforePos.y + sub.scale_.y) },
+												{ velocity->x,velocity->y }) > 0) {
+												isFirstX = false;
+											}
+											else {
+												isFirstX = true;
+											}
+										}
+									}
+									else {
+										isFirstX = false;
+									}
+
+									if (isFirstX) {
+										// x軸から先に修正する
+
+										sub.translate_.x = chipPos.x - mapchip[y][x].scale_.x - sub.scale_.x - 0.001f;
+
+										sub.UpdateMatrix();
+										nextX -= 1;
+
+										if (y == 0) {
+											switch (type[y][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[y][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = chipPos.y - mapchip[y][nextX].scale_.y - sub.scale_.y - 0.001f;
+												}
+												break;
+											case 2:
+
+												isJump = true;
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextY -= 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = mapchip[nextY][nextX].worldPos_.y - mapchip[nextY][nextX].scale_.y - sub.scale_.y - 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+
+									}
+									else {
+										// y軸から修正する
+
+										velocity->y = 0.0f;
+										sub.translate_.y = chipPos.y - mapchip[y][nextX].scale_.y - sub.scale_.y - 0.001f;
+
+										sub.UpdateMatrix();
+										nextY += 1;
+
+										if (x == int(mapchip.size())) {
+											switch (type[nextY][x]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][x])) {
+													sub.translate_.x = chipPos.x - mapchip[nextY][x].scale_.x - sub.scale_.x - 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextX += 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													sub.translate_.x = chipPos.x - mapchip[nextY][nextX].scale_.x - sub.scale_.x - 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+									}
+
+									finishFlag = true;
+
+								}
+							}
+							else {
+								// xが負の方向に移動する場合
+
+								if (velocity->y < 0) {
+									// yが負の方向に移動する場合
+									if (beforePos.x > chipPos.x + mapchip[y][x].scale_.x + sub.scale_.x) {
+										if (beforePos.y < chipPos.y + mapchip[y][x].scale_.y + sub.scale_.y) {
+											isFirstX = true;
+										}
+										else {
+											if (Calc::Outer({ (chipPos.x + mapchip[y][x].scale_.x) - (beforePos.x - sub.scale_.x), (chipPos.y + mapchip[y][x].scale_.y) - (beforePos.y - sub.scale_.y) },
+												{ velocity->x,velocity->y }) < 0) {
+												isFirstX = false;
+											}
+											else {
+												isFirstX = true;
+											}
+										}
+									}
+									else {
+										isFirstX = false;
+									}
+
+									if (isFirstX) {
+										// x軸から先に修正する
+
+										sub.translate_.x = chipPos.x + mapchip[y][x].scale_.x + sub.scale_.x + 0.001f;
+
+										sub.UpdateMatrix();
+										nextX += 1;
+
+										if (y == int(mapchip.size())) {
+											switch (type[y][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[y][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = chipPos.y + mapchip[y][nextX].scale_.y + sub.scale_.y + 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextY += 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = mapchip[nextY][nextX].worldPos_.y + mapchip[nextY][nextX].scale_.y + sub.scale_.y + 0.001f;
+												}
+												break;
+											case 2:
+
+												isJump = true;
+												break;
+
+											default:
+												break;
+											}
+										}
+
+									}
+									else {
+										// y軸から修正する
+
+										velocity->y = 0.0f;
+										sub.translate_.y = chipPos.y + mapchip[y][nextX].scale_.y + sub.scale_.y + 0.001f;
+
+										sub.UpdateMatrix();
+										nextY -= 1;
+
+										if (x == 0) {
+											switch (type[nextY][x]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][x])) {
+													sub.translate_.x = chipPos.x + mapchip[nextY][x].scale_.x + sub.scale_.x + 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextX -= 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													sub.translate_.x = chipPos.x + mapchip[nextY][nextX].scale_.x + sub.scale_.x + 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+									}
+
+									finishFlag = true;
+
+								}
+								else {
+									// yが正の方向に移動する場合
+									if (beforePos.x > chipPos.x + mapchip[y][x].scale_.x + sub.scale_.x) {
+										if (beforePos.y > chipPos.y - mapchip[y][x].scale_.y - sub.scale_.y) {
+											isFirstX = true;
+										}
+										else {
+											if (Calc::Outer({ (chipPos.x + mapchip[y][x].scale_.x) - (beforePos.x - sub.scale_.x), (chipPos.y - mapchip[y][x].scale_.y) - (beforePos.y + sub.scale_.y) },
+												{ velocity->x,velocity->y }) < 0) {
+												isFirstX = false;
+											}
+											else {
+												isFirstX = true;
+											}
+										}
+									}
+									else {
+										isFirstX = false;
+									}
+
+									if (isFirstX) {
+										// x軸から先に修正する
+
+										sub.translate_.x = chipPos.x + mapchip[y][x].scale_.x + sub.scale_.x + 0.001f;
+
+										sub.UpdateMatrix();
+										nextX += 1;
+
+										if (y == 0) {
+											switch (type[y][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[y][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = chipPos.y - mapchip[y][nextX].scale_.y - sub.scale_.y - 0.001f;
+												}
+												break;
+											case 2:
+
+												isJump = true;
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextY -= 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													velocity->y = 0.0f;
+													sub.translate_.y = mapchip[nextY][nextX].worldPos_.y - mapchip[nextY][nextX].scale_.y - sub.scale_.y - 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+
+									}
+									else {
+										// y軸から修正する
+
+										velocity->y = 0.0f;
+										sub.translate_.y = chipPos.y - mapchip[y][nextX].scale_.y - sub.scale_.y - 0.001f;
+
+										sub.UpdateMatrix();
+										nextY += 1;
+
+										if (x == 0) {
+											switch (type[nextY][x]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][x])) {
+													sub.translate_.x = chipPos.x + mapchip[nextY][x].scale_.x + sub.scale_.x + 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+										else {
+											nextX -= 1;
+
+											switch (type[nextY][nextX]) {
+											case 0:
+												break;
+											case 1:
+												if (sub.IsCollisionXY(mapchip[nextY][nextX])) {
+													sub.translate_.x = chipPos.x + mapchip[nextY][nextX].scale_.x + sub.scale_.x + 0.001f;
+												}
+												break;
+											case 2:
+												isJump = true;
+
+												break;
+
+											default:
+												break;
+											}
+										}
+									}
+
+									finishFlag = true;
+
+								}
+							}
+
+						}
+
+						break;
+
+					case 2:
+
+						isJump = true;
+						break;
+
+					default:
+						break;
+					}
+				}
+
+				if (finishFlag) {
+					break;
+				}
+			}
+
+			if (finishFlag) {
+				break;
+			}
+		}
+
+		sub.UpdateMatrix();
+		*transform = sub;
+	}
+
+
+
+	// 跳ねる時の処理。ブロックにめり込んでた場合の処理をした後にするためここにある。
+	if (isJump) {
+
+	}
+
+	
+}

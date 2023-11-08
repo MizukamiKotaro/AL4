@@ -1,10 +1,11 @@
 #pragma once
-#include "../../ModelCommon/Model/Model.h"
-#include "../../Utils/Transform/Transform.h"
+#include "ModelCommon/Model/Model.h"
+#include "Utils/Transform/Transform.h"
 #include <memory>
 #include <vector>
 #include <optional>
 #include <string>
+#include "Utils/Shape/OBB.h"
 
 class Camera;
 
@@ -44,6 +45,10 @@ public:
 
 	void Collision(const Transform* transform);
 
+	void Collision(const OBB& obb, bool* flag);
+
+	bool GetIsDie() { return isDie_; }
+
 private:
 
 	void SetGlobalVariable();
@@ -82,9 +87,14 @@ private:
 
 	void AttackBehaviorReturnUpdate();
 
+	void BehaviorDashInitialize();
+
+	void BehaviorDashUpdate();
+
 	enum class Behavior {
 		kRoot, // 通常状態
 		kAttack, // 攻撃中
+		kDash, // ダッシュ
 	};
 
 	enum class BehaviorAttack {
@@ -100,6 +110,13 @@ private:
 	void UpdateMat();
 
 private:
+	// ダッシュ用ワーク
+	struct WorkDash {
+		// ダッシュ用媒介変数
+		uint32_t dashParameter_;
+		uint32_t behaviorDashTime_;
+		float dashSpeed_;
+	};
 
 	const std::string groupName_ = "Player";
 	
@@ -151,5 +168,13 @@ private:
 	bool isOnFloor_;
 
 	bool isNowOnFloor_;
+
+	WorkDash workDash_;
+
+	OBB weaponOBB_;
+
+	std::unique_ptr<Model> cube_;
+
+	bool isDie_;
 
 };

@@ -33,6 +33,12 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+
+	if (player_->GetIsDie()) {
+		player_->Initialize();
+		enemy_->Initialize();
+	}
+
 	skydome_->Update();
 
 	ground_->Update();
@@ -51,6 +57,7 @@ void GameScene::Update() {
 
 	player_->Collision(&enemy_->GetTransform());
 	player_->Collision(&goal_->GetTransform());
+	player_->Collision(enemy_->GetOBB(), enemy_->GetIsDie());
 
 	followCamera_.Update();
 

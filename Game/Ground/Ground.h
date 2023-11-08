@@ -1,5 +1,5 @@
 #pragma once
-#include "../../ModelCommon/Model/Model.h"
+#include "ModelCommon/Model/Model.h"
 #include <memory>
 
 

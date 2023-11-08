@@ -60,11 +60,14 @@ public:
 	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 	//線形補間
+	static float Lerp(const float& p0, const float& p1, float t);
+	static Vector2 Lerp(const Vector2& p0, const Vector2& p1, float t);
 	static Vector3 Lerp(const Vector3& p0, const Vector3& p1, float t);
 	//ベジエ
 	static Vector3 Bezier(const Vector3& p0, const Vector3& p1, const Vector3& p2, float t);
 	//キャトムルロム
 	static Vector3 Catmull_rom(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t);
+
 
 };
 

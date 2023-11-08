@@ -15,6 +15,10 @@ public:
 
 	bool IsCollisionXZ(const Transform& transform);
 
+	bool IsCollisionXY(const Transform& transform);
+
+	bool IsCollisionYZ(const Transform& transform);
+
 	void SetWorldTranslateParent(const Transform* transform);
 
 	void ClearWorldTranslateParent();

@@ -1,11 +1,13 @@
 #include "Player.h"
 #include <cassert>
-#include "../../Utils/Ease/Ease.h"
+#include "Utils/Ease/Ease.h"
 #include <cmath>
-#include "../../Utils/Camera/Camera.h"
-#include "../../Input/Input.h"
+#include "Utils/Camera/Camera.h"
+#include "Input/Input.h"
 #include <numbers>
-#include "../../GlobalVariables/GlobalVariables.h"
+#include "GlobalVariables/GlobalVariables.h"
+#include "Utils/Math/calc.h"
+#include "Utils/Collision/Collision.h"
 
 Player::Player()
 {
@@ -15,6 +17,8 @@ Player::Player()
 	models_.push_back(std::make_unique<Model>("Resources/float_R_Arm", "float_R_Arm.obj"));
 	models_.push_back(std::make_unique<Model>("Resources/weapon", "weapon.obj"));
 
+	cube_ = std::make_unique<Model>("Resources/Cube", "Cube.obj");
+
 	camera_ = nullptr;
 
 	isNowOnFloor_ = false;
@@ -22,6 +26,14 @@ Player::Player()
 	isJump_ = false;
 	velocity_ = {};
 	floatingParameter_ = 0.0f;
+
+	workDash_.dashParameter_ = 0;
+	workDash_.behaviorDashTime_ = 5;
+	workDash_.dashSpeed_ = 0.2f;
+
+	SetGlobalVariable();
+
+	weaponOBB_.size = { 1.0f,1.5f,1.0f };
 }
 
 void Player::Initialize()
@@ -38,6 +50,10 @@ void Player::Initialize()
 	models_[kModelIndexR_arm]->transform_.translate_ = { -1.0f, 2.5f, 0.0f };
 
 	models_[kModelIndexWeapon]->transform_.parent_ = &models_[kModelIndexHead]->transform_;
+	cube_->transform_.parent_ = &models_[kModelIndexWeapon]->transform_;
+
+	models_[kModelIndexL_arm]->transform_.rotate_ = {};
+	models_[kModelIndexR_arm]->transform_.rotate_ = {};
 
 	behaviorRequest_ = Behavior::kRoot;
 
@@ -52,20 +68,36 @@ void Player::Initialize()
 	isOnFloor_ = true;
 
 	isNowOnFloor_ = true;
+
+	isDie_ = false;
+	
+	UpdateMat();
 }
 
 void Player::SetGlobalVariable()
 {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
+	globalVariables->CreateGroup(groupName_);
 
+	globalVariables->AddItem(groupName_, "behaviorDashTime", static_cast<int>(workDash_.behaviorDashTime_));
+	globalVariables->AddItem(groupName_, "dashSpeed", workDash_.dashSpeed_);
+
+	globalVariables->AddItem(groupName_, "OBBLocalPos", cube_->transform_.translate_);
+	globalVariables->AddItem(groupName_, "OBBScale", cube_->transform_.scale_);
+
+	ApplyGlobalVariable();
 }
 
 void Player::ApplyGlobalVariable()
 {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
+	workDash_.behaviorDashTime_ = globalVariables->GetIntValue(groupName_, "behaviorDashTime");
+	workDash_.dashSpeed_ = globalVariables->GetFloatValue(groupName_, "dashSpeed");
 
+	cube_->transform_.translate_ = globalVariables->GetVector3Value(groupName_, "OBBLocalPos");
+	cube_->transform_.scale_ = globalVariables->GetVector3Value(groupName_, "OBBScale");
 }
 
 void Player::UpdateMat()
@@ -75,6 +107,11 @@ void Player::UpdateMat()
 	for (std::unique_ptr<Model>& model : models_) {
 		model->Update();
 	}
+	cube_->Update();
+
+	weaponOBB_.center = cube_->transform_.worldPos_;
+	weaponOBB_.size = cube_->transform_.scale_;
+	weaponOBB_.SetOrientations(models_[Joints::kModelIndexWeapon]->transform_.worldMat_);
 }
 
 void Player::SetWorldTranslateParent(const Transform* transform)
@@ -147,10 +184,21 @@ void Player::EditWorldTransform(const Transform* transform)
 void Player::Collision(const Transform* transform)
 {
 	if (transform_.IsCollisionXZ(*transform)) {
-		Initialize();
-		UpdateMat();
+		isDie_ = true;
+		/*Initialize();
+		UpdateMat();*/
 	}
 
+}
+
+void Player::Collision(const OBB& obb, bool* flag)
+{
+
+	if (behavior_ == Behavior::kAttack) {
+		if (Collision::IsCollision(weaponOBB_, obb)) {
+			*flag = true;
+		}
+	}
 }
 
 void Player::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
@@ -195,7 +243,7 @@ void Player::BehaviorRootUpdate() {
 
 	move = move * Matrix4x4::MakeRotateXYZMatrix(camera_->transform_.rotate_);
 
-	if (input->PressedGamePadButton(Input::GamePadButton::kA) && !isJump_) {
+	if (input->PressedGamePadButton(Input::GamePadButton::A) && !isJump_) {
 		isJump_ = true;
 		velocity_.y += 2.0f;
 	}
@@ -212,8 +260,9 @@ void Player::BehaviorRootUpdate() {
 	const float pi = std::numbers::pi_v<float>;
 
 	if (velocity_.x == 0 && velocity_.z == 0) {
-		transform_.rotate_.y = camera_->transform_.rotate_.y;
-		transform_.isUseOtherRotateMat_ = false;
+		// プレイヤーがカメラを向く処理
+		/*transform_.rotate_.y = camera_->transform_.rotate_.y;
+		transform_.isUseOtherRotateMat_ = false;*/
 	}
 	else {
 
@@ -223,10 +272,15 @@ void Player::BehaviorRootUpdate() {
 		Vector3 rotate1 = Vector3{ pos - pos1 }.Normalize();
 
 		transform_.SetOtherRotateMatrix(rotate1, rotate, Matrix4x4::MakeRotateYMatrix(camera_->transform_.rotate_.y));
+
 	}
 
-	if (input->PressedGamePadButton(Input::GamePadButton::kB) && !isJump_) {
+	if (input->PressedGamePadButton(Input::GamePadButton::B) && !isJump_) {
 		behaviorRequest_ = Behavior::kAttack;
+	}
+
+	if (input->PressedGamePadButton(Input::GamePadButton::X) && !isJump_) {
+		behaviorRequest_ = Behavior::kDash;
 	}
 }
 
@@ -393,6 +447,36 @@ void Player::AttackBehaviorReturnUpdate() {
 	}
 }
 
+void Player::BehaviorDashInitialize()
+{
+	workDash_.dashParameter_ = 0;
+
+}
+
+void Player::BehaviorDashUpdate()
+{
+
+	Vector3 move = { 0.0f, 0.0f,-workDash_.dashSpeed_ };
+
+	if (transform_.isUseOtherRotateMat_) {
+		move = move * transform_.otherRotateMat_;
+
+	}
+	else {
+		move = move * Matrix4x4::MakeRotateYMatrix(transform_.rotate_.y);
+	}
+
+	velocity_.x = move.x;
+	velocity_.z = move.z;
+
+	transform_.translate_ += velocity_;
+
+	if (++workDash_.dashParameter_ >= workDash_.behaviorDashTime_) {
+		behaviorRequest_ = Behavior::kRoot;
+	}
+
+}
+
 void Player::BehaviorAttackUpdate() {
 
 	if (behaviorAttackRequest_) {
@@ -467,6 +551,9 @@ void Player::Update() {
 			break;
 		case Behavior::kAttack:
 			BehaviorAttackInitialize();
+			break;
+		case Behavior::kDash:
+			BehaviorDashInitialize();
 
 			break;
 		}
@@ -484,10 +571,16 @@ void Player::Update() {
 		BehaviorAttackUpdate();
 
 		break;
+
+	case Behavior::kDash:
+		BehaviorDashUpdate();
+
+		break;
 	}
 
 	if (transform_.worldPos_.y <= -20.0f) {
-		Initialize();
+		//Initialize();
+		isDie_ = true;
 	}
 
 	UpdateMat();
@@ -505,6 +598,7 @@ void Player::Draw(const Matrix4x4& viewProjection) {
 		else if (behavior_ == Behavior::kAttack && behaviorAttack_ != BehaviorAttack::kExtra &&
 			behaviorAttack_ != BehaviorAttack::kReturn) {
 			models_[i]->Draw(viewProjection);
+			//cube_->Draw(viewProjection);
 		}
 
 	}

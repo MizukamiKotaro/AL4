@@ -1,8 +1,9 @@
 #pragma once
-#include "../../ModelCommon/Model/Model.h"
-#include "../../Utils/Transform/Transform.h"
+#include "ModelCommon/Model/Model.h"
+#include "Utils/Transform/Transform.h"
 #include <memory>
 #include <vector>
+#include "Utils/Shape/OBB.h"
 
 class Enemy {
 public:
@@ -26,6 +27,10 @@ public:
 
 	const Transform& GetTransform() { return transform_; }
 
+	bool* GetIsDie() { return &isDie_; }
+
+	OBB GetOBB() { return obb_; }
+
 private:
 	void InitializeRotGimmick();
 
@@ -41,4 +46,8 @@ private:
 	std::vector<std::unique_ptr<Model>> models_;
 
 	float parameter_;
+
+	OBB obb_;
+
+	bool isDie_;
 };

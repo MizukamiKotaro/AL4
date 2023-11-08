@@ -1,6 +1,6 @@
 #include "GlobalVariables.h"
-#include "../Externals/nlohmann/json.hpp"
-#include "../Externals/imgui/imgui.h"
+#include "Externals/nlohmann/json.hpp"
+#include "Externals/imgui/imgui.h"
 #include <fstream>
 
 GlobalVariables* GlobalVariables::GetInstance() {

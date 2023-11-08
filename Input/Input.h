@@ -10,18 +10,28 @@
 #include <wrl.h>
 
 #include <vector>
-#include "../Utils/Math/Vector2.h"
-#include "../Kyoko/WinApp/WinApp.h"
+#include "Utils/Math/Vector2.h"
+#include "Kyoko/WinApp/WinApp.h"
 
 class Input
 {
 public:
 
 	enum class GamePadButton {
-		kA,
-		kB,
-		kX,
-		kY
+		A,
+		B,
+		X,
+		Y,
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+		START,
+		BACK,
+		LEFT_THUMB,
+		RIGHT_THUMB,
+		LEFT_SHOULDER,
+		RIGHT_SHOULDER,
 	};
 
 	// namespace省略

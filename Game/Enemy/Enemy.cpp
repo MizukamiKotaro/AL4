@@ -24,6 +24,9 @@ void Enemy::Initialize() {
 
 	InitializeRotGimmick();
 
+	obb_.size = models_[Joints::kModelIndexBody]->transform_.scale_;
+
+	isDie_ = false;
 }
 
 void Enemy::InitializeRotGimmick() { parameter_ = 0.0f; }
@@ -54,10 +57,16 @@ void Enemy::UpdateMat()
 	for (std::unique_ptr<Model>& model : models_) {
 		model->Update();
 	}
+
+	obb_.center = models_[Joints::kModelIndexBody]->transform_.worldPos_;
+	obb_.SetOrientations(models_[Joints::kModelIndexBody]->transform_.worldMat_);
 }
 
 void Enemy::Update() {
 
+	if (isDie_) {
+		transform_.translate_ = { 1000.0f,0.0f,1000.0f };
+	}
 
 	UpdateRotGimmick();
 
@@ -84,7 +93,9 @@ void Enemy::Update() {
 
 void Enemy::Draw(const Matrix4x4& viewProjection) 
 {
-	for (std::unique_ptr<Model>& model : models_) {
-		model->Draw(viewProjection);
+	if (!isDie_) {
+		for (std::unique_ptr<Model>& model : models_) {
+			model->Draw(viewProjection);
+		}
 	}
 }

@@ -6,6 +6,8 @@
 #include "../Shape/AABB.h"
 #include "../Shape/Quadrangle.h"
 #include "../Shape/OBB.h"
+#include <vector>
+#include "Utils/Transform/Transform.h"
 
 class Collision
 {
@@ -45,5 +47,7 @@ public:
 
 	static bool IsCollision(const AABB& a, const OBB& b);
 	static bool IsCollision(const OBB& a, const OBB& b);
+
+	static void CollisionEdit(const std::vector<std::vector<Transform>>& mapchip,const std::vector<std::vector<int>>& type, Transform* transform, Vector3* velocity);
 };
 

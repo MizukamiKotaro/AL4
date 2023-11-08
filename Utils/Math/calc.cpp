@@ -336,6 +336,20 @@ Vector3 Calc::Cross(const Vector3& v1, const Vector3& v2) {
 }
 
 
+float Calc::Lerp(const float& p0, const float& p1, float t)
+{
+	float result = (1.0f - t) * p0 + t * p1;
+	return result;
+}
+
+Vector2 Calc::Lerp(const Vector2& p0, const Vector2& p1, float t)
+{
+	Vector2 result = {};
+	result.x = (1.0f - t) * p0.x + t * p1.x;
+	result.y = (1.0f - t) * p0.y + t * p1.y;
+	return result;
+}
+
 Vector3 Calc::Lerp(const Vector3& p0, const Vector3& p1, float t) {
 	Vector3 result = {};
 	result.x = (1.0f - t) * p0.x + t * p1.x;
@@ -356,3 +370,5 @@ Vector3 Calc::Catmull_rom(const Vector3& p0, const Vector3& p1, const Vector3& p
 	result.z = ((-p0.z + 3 * p1.z - 3 * p2.z + p3.z) * t * t * t + (2 * p0.z - 5 * p1.z + 4 * p2.z - p3.z) * t * t + (-p0.z + p2.z) * t + 2 * p1.z) / 2;
 	return result;
 }
+
+

@@ -1,6 +1,6 @@
 #pragma once
-#include "../../ModelCommon/Model/Model.h"
-#include "../../Utils/Transform/Transform.h"
+#include "ModelCommon/Model/Model.h"
+#include "Utils/Transform/Transform.h"
 #include <memory>
 
 class Goal {
