@@ -27,9 +27,13 @@ public:
 
 	const Transform& GetTransform() { return transform_; }
 
-	bool* GetIsDie() { return &isDie_; }
+	bool* GetIsDiePtr() { return &isDie_; }
+
+	const bool GetIsDie() const { return isDie_; }
 
 	OBB GetOBB() { return obb_; }
+
+	const Vector3 GetCenterPos() const { return models_[Joints::kModelIndexBody]->transform_.worldPos_; }
 
 private:
 	void InitializeRotGimmick();

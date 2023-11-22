@@ -165,6 +165,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\FollowCamera\FollowCamera.cpp" />
     <ClCompile Include="Game\Goal\Goal.cpp" />
     <ClCompile Include="Game\Ground\Ground.cpp" />
+    <ClCompile Include="Game\LockOn\LockOn.cpp" />
     <ClCompile Include="Game\Player\Player.cpp" />
     <ClCompile Include="Game\Skydome\Skydome.cpp" />
     <ClCompile Include="GlobalVariables\GlobalVariables.cpp" />
@@ -211,6 +212,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\FollowCamera\FollowCamera.h" />
     <ClInclude Include="Game\Goal\Goal.h" />
     <ClInclude Include="Game\Ground\Ground.h" />
+    <ClInclude Include="Game\LockOn\LockOn.h" />
     <ClInclude Include="Game\Player\Player.h" />
     <ClInclude Include="Game\Skydome\Skydome.h" />
     <ClInclude Include="GlobalVariables\GlobalVariables.h" />

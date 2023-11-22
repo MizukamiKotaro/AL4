@@ -7,7 +7,6 @@ GameScene::~GameScene() {}
 
 void GameScene::Initialize() {
 
-	//dxCommon_ = DirectXCommon::GetInstance();
 	camera_.Initialize();
 	camera_.transform_.translate_.y = 2.0f;
 	
@@ -19,8 +18,10 @@ void GameScene::Initialize() {
 
 	player_->SetViewProjection(&followCamera_.GetCamera());
 
-	enemy_ = std::make_unique<Enemy>();
-	enemy_->Initialize();
+	enemies_.emplace_back(std::make_unique<Enemy>());
+	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
+		enemy->Initialize();
+	}
 
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize();
@@ -30,14 +31,21 @@ void GameScene::Initialize() {
 
 	goal_ = std::make_unique<Goal>();
 	goal_->Initialize();
+
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Initialize();
 }
 
 void GameScene::Update() {
 
 	if (player_->GetIsDie()) {
 		player_->Initialize();
-		enemy_->Initialize();
+		for (const std::unique_ptr<Enemy>& enemy : enemies_) {
+			enemy->Initialize();
+		}
 	}
+
+	lockOn_->Update(enemies_, camera_);
 
 	skydome_->Update();
 
@@ -45,7 +53,9 @@ void GameScene::Update() {
 
 	goal_->Update();
 
-	enemy_->Update();
+	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
+		enemy->Update();
+	}
 
 	player_->Update();
 
@@ -55,9 +65,12 @@ void GameScene::Update() {
 		player_->EditWorldTransform(&groundModel->transform_);
 	}
 
-	player_->Collision(&enemy_->GetTransform());
 	player_->Collision(&goal_->GetTransform());
-	player_->Collision(enemy_->GetOBB(), enemy_->GetIsDie());
+
+	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
+		player_->Collision(&enemy->GetTransform());
+		player_->Collision(enemy->GetOBB(), enemy->GetIsDiePtr());
+	}
 
 	followCamera_.Update();
 
@@ -69,14 +82,17 @@ void GameScene::Update() {
 void GameScene::Draw()
 {
 
-
 	skydome_->Draw(camera_.GetViewProjection());
 
 	ground_->Draw(camera_.GetViewProjection());
 
 	player_->Draw(camera_.GetViewProjection());
 
-	enemy_->Draw(camera_.GetViewProjection());
+	lockOn_->Draw(camera_.GetViewProjection());
+
+	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
+		enemy->Draw(camera_.GetViewProjection());
+	}
 
 	goal_->Draw(camera_.GetViewProjection());
 

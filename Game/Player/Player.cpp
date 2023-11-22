@@ -9,6 +9,17 @@
 #include "Utils/Math/calc.h"
 #include "Utils/Collision/Collision.h"
 
+const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks_ =
+{
+	{
+		// 振りかぶり、攻撃前硬直、攻撃振り時間、硬直<frame>各フェーズの移動速さ
+		{0,0,20,0,0.0f,0.0f,0.15f},
+		{15,10,15,0,0.2f,0.0f,0.0f},
+		{15,10,15,30,0.2f,0.0f,0.0f},
+	}
+};
+
+
 Player::Player()
 {
 	models_.push_back(std::make_unique<Model>("Resources/float_Body", "float_Body.obj"));
@@ -112,6 +123,18 @@ void Player::UpdateMat()
 	weaponOBB_.center = cube_->transform_.worldPos_;
 	weaponOBB_.size = cube_->transform_.scale_;
 	weaponOBB_.SetOrientations(models_[Joints::kModelIndexWeapon]->transform_.worldMat_);
+}
+
+void Player::Attack1Init()
+{
+
+}
+
+void Player::Attack1Update()
+{
+	
+
+
 }
 
 void Player::SetWorldTranslateParent(const Transform* transform)
@@ -283,8 +306,6 @@ void Player::BehaviorRootUpdate() {
 		behaviorRequest_ = Behavior::kDash;
 	}
 }
-
-void Player::BehaviorAttackInitialize() { behaviorAttackRequest_ = BehaviorAttack::kExtra; }
 
 void Player::EaseVectorClear() {
 	easeStartPos_.clear();
@@ -477,6 +498,8 @@ void Player::BehaviorDashUpdate()
 
 }
 
+void Player::BehaviorAttackInitialize() { behaviorAttackRequest_ = BehaviorAttack::kExtra; }
+
 void Player::BehaviorAttackUpdate() {
 
 	if (behaviorAttackRequest_) {
@@ -534,7 +557,42 @@ void Player::BehaviorAttackUpdate() {
 		AttackBehaviorReturnUpdate();
 		break;
 	}
+
+
+	/*if (workAttack_.comboIndex < ComboNum - 1) {
+		if (Input::GetInstance()->PressedGamePadButton(Input::GamePadButton::B)) {
+			workAttack_.comboNext = true;
+		}
+	}
+
+	if (++workAttack_.attackParameter >=
+		kConstAttacks_[workAttack_.comboIndex].aticipationTime + kConstAttacks_[workAttack_.comboIndex].chargeTIme +
+		kConstAttacks_[workAttack_.comboIndex].recoveryTime + kConstAttacks_[workAttack_.comboIndex].swingTime) {
+
+		if (workAttack_.comboNext) {
+
+			workAttack_.comboNext = false;
+
+
+
+		}
+		else {
+			behaviorRequest_ = Behavior::kRoot;
+		}
+	}*/
 }
+
+void (Player::* Player::spStateInitFuncTable[])() {
+	&Player::BehaviorRootInitialize,
+	&Player::BehaviorAttackInitialize,
+	&Player::BehaviorDashInitialize,
+};
+
+void (Player::* Player::spStateUpdateFuncTable[])() {
+	&Player::BehaviorRootUpdate,
+	&Player::BehaviorAttackUpdate,
+	&Player::BehaviorDashUpdate,
+};
 
 void Player::Update() {
 
@@ -545,38 +603,13 @@ void Player::Update() {
 		behavior_ = behaviorRequest_.value();
 
 		// 各振る舞いごとの初期化を実行
-		switch (behavior_) {
-		case Behavior::kRoot:
-			BehaviorRootInitialize();
-			break;
-		case Behavior::kAttack:
-			BehaviorAttackInitialize();
-			break;
-		case Behavior::kDash:
-			BehaviorDashInitialize();
-
-			break;
-		}
+		(this->*spStateInitFuncTable[static_cast<size_t>(behavior_)])();
 		//振る舞いリクエストをリセット
 		behaviorRequest_ = std::nullopt;
 
 	}
 
-	switch (behavior_) {
-	case Behavior::kRoot:
-		BehaviorRootUpdate();
-
-		break;
-	case Behavior::kAttack:
-		BehaviorAttackUpdate();
-
-		break;
-
-	case Behavior::kDash:
-		BehaviorDashUpdate();
-
-		break;
-	}
+	(this->*spStateUpdateFuncTable[static_cast<size_t>(behavior_)])();
 
 	if (transform_.worldPos_.y <= -20.0f) {
 		//Initialize();
