@@ -191,6 +191,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Utils\Math\Quaternion.cpp" />
     <ClCompile Include="Utils\Math\Vector2.cpp" />
     <ClCompile Include="Utils\Math\Vector3.cpp" />
+    <ClCompile Include="Utils\ScreenPrint\ScreenPrint.cpp" />
     <ClCompile Include="Utils\Shape\AABB.cpp" />
     <ClCompile Include="Utils\Shape\OBB.cpp" />
     <ClCompile Include="Utils\Shape\Plane.cpp" />
@@ -239,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Utils\Math\Vector2.h" />
     <ClInclude Include="Utils\Math\Vector3.h" />
     <ClInclude Include="Utils\Math\Vector4.h" />
+    <ClInclude Include="Utils\ScreenPrint\ScreenPrint.h" />
     <ClInclude Include="Utils\Shape\AABB.h" />
     <ClInclude Include="Utils\Shape\Line.h" />
     <ClInclude Include="Utils\Shape\OBB.h" />

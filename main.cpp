@@ -11,6 +11,8 @@
 #include "SceneManager/GameScene/GameScene.h"
 #include "GlobalVariables/GlobalVariables.h"
 
+#include "Utils/ScreenPrint/ScreenPrint.h"
+
 static ResourceLeackChecker leakCheck;
 
 //Windowsアプリでのエントリーポイント(main関数)
@@ -91,8 +93,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの初期化
 
 	
-	std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
-	gameScene->Initialize();
+	/*std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
+	gameScene->Initialize();*/
+
+	Vector3 axis = Vector3({ 1.0f,1.0f,1.0f }).Normalize();
+	float angle = 0.44f;
+	Matrix4x4 rotateMat = Matrix4x4::MakeRotateAxisAngle(axis, angle);
+
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -116,7 +123,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 
 #pragma region 最初のシーンの更新
 
-		gameScene->Update();
+		//gameScene->Update();
+		ScreenPrint("RotateMatrix",rotateMat);
 
 #pragma endregion 最初のシーンの更新
 
@@ -128,7 +136,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの描画
 
 		
-		gameScene->Draw();
+		//gameScene->Draw();
 
 
 #pragma endregion 最初のシーンの描画
