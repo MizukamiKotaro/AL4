@@ -96,10 +96,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 	/*std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
 	gameScene->Initialize();*/
 
-	Vector3 axis = Vector3({ 1.0f,1.0f,1.0f }).Normalize();
-	float angle = 0.44f;
-	Matrix4x4 rotateMat = Matrix4x4::MakeRotateAxisAngle(axis, angle);
-
+	Vector3 from0 = Vector3({ 1.0f,0.7f,0.5f }).Normalize();
+	Vector3 to0 = -from0;
+	Vector3 from1= Vector3({ -0.6f,0.9f,0.2f }).Normalize();
+	Vector3 to1 = Vector3({ 0.4f,0.7f,-0.5f }).Normalize();
+	Matrix4x4 rotateMat0 = Matrix4x4::DirectionToDirection({ 1.0f,0.0f,0.0f }, { -1.0f,0.0f,0.0f });
+	Matrix4x4 rotateMat1 = Matrix4x4::DirectionToDirection(from0, to0);
+	Matrix4x4 rotateMat2 = Matrix4x4::DirectionToDirection(from1, to1);
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -124,7 +127,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの更新
 
 		//gameScene->Update();
-		ScreenPrint("RotateMatrix",rotateMat);
+		ScreenPrint("RotateMatrix0", rotateMat0);
+		ScreenPrint("RotateMatrix1", rotateMat1);
+		ScreenPrint("RotateMatrix2", rotateMat2);
 
 #pragma endregion 最初のシーンの更新
 
