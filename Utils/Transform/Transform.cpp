@@ -1,6 +1,7 @@
 #include "Transform.h"
 #include "../Math/Vector2.h"
 #include <cmath>
+#include <numbers>
 
 Transform::Transform()
 {
@@ -181,6 +182,8 @@ const Matrix4x4 Transform::GetRotMat(Type type) const
 void Transform::ClearOtherRotMat()
 {
 	isUseOtherRotateMat_ = false;
+
+	float pi = std::numbers::pi_v<float>;
 
 	if (otherRotType_ == X) {
 		if (otherRotateMat_.m[1][2] >= 0) {

@@ -56,6 +56,7 @@ void FollowCamera::Update() {
 	else {
 		if (camera_.transform_.isUseOtherRotateMat_) {
 			camera_.transform_.ClearOtherRotMat();
+			destinationAngleY_ = camera_.transform_.rotate_.y;
 		}
 		else {
 			camera_.transform_.rotate_.y = Calc::Lerp(camera_.transform_.rotate_.y, destinationAngleY_, interpolationRate_);
