@@ -11,7 +11,6 @@
 #include "SceneManager/GameScene/GameScene.h"
 #include "GlobalVariables/GlobalVariables.h"
 
-#include "Utils/ScreenPrint/ScreenPrint.h"
 
 static ResourceLeackChecker leakCheck;
 
@@ -93,16 +92,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの初期化
 
 	
-	/*std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
-	gameScene->Initialize();*/
-
-	Vector3 from0 = Vector3({ 1.0f,0.7f,0.5f }).Normalize();
-	Vector3 to0 = -from0;
-	Vector3 from1= Vector3({ -0.6f,0.9f,0.2f }).Normalize();
-	Vector3 to1 = Vector3({ 0.4f,0.7f,-0.5f }).Normalize();
-	Matrix4x4 rotateMat0 = Matrix4x4::DirectionToDirection({ 1.0f,0.0f,0.0f }, { -1.0f,0.0f,0.0f });
-	Matrix4x4 rotateMat1 = Matrix4x4::DirectionToDirection(from0, to0);
-	Matrix4x4 rotateMat2 = Matrix4x4::DirectionToDirection(from1, to1);
+	std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
+	gameScene->Initialize();
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -126,10 +117,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 
 #pragma region 最初のシーンの更新
 
-		//gameScene->Update();
-		ScreenPrint("RotateMatrix0", rotateMat0);
-		ScreenPrint("RotateMatrix1", rotateMat1);
-		ScreenPrint("RotateMatrix2", rotateMat2);
+		gameScene->Update();
 
 #pragma endregion 最初のシーンの更新
 
@@ -141,7 +129,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの描画
 
 		
-		//gameScene->Draw();
+		gameScene->Draw();
 
 
 #pragma endregion 最初のシーンの描画

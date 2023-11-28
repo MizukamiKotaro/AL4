@@ -10,6 +10,7 @@
 #include "Game/Goal/Goal.h"
 #include "Game/LockOn/LockOn.h"
 #include <list>
+#include "Particle/Particle.h"
 
 /// <summary>
 /// ゲームシーン
@@ -60,6 +61,8 @@ private: // メンバ変数
 	std::unique_ptr<Goal> goal_;
 
 	std::unique_ptr<LockOn> lockOn_;
+
+	std::unique_ptr<Particle> particle_;
 
 	/// <summary>
 	/// ゲームシーン用

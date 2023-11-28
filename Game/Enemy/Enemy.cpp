@@ -2,20 +2,20 @@
 #include <cassert>
 #include <cmath>
 #include <numbers>
+#include <algorithm>
 
-Enemy::Enemy()
+Enemy::Enemy(const Vector3& pos)
 {
 	models_.push_back(std::make_unique<Model>("Resources/EnemyBody", "EnemyBody.obj"));
 	models_.push_back(std::make_unique<Model>("Resources/EnemyJoint1", "EnemyJoint1.obj"));
 
-	parameter_ = 0.0f;
+	firstPos_ = pos;
 }
 
 void Enemy::Initialize() {
 
 	transform_ = Transform();
-	transform_.translate_.z = 130.0f;
-	transform_.translate_.x = 10.0f;
+	transform_.translate_ = firstPos_;
 
 	models_[kModelIndexBody]->transform_.parent_ = &transform_;
 	models_[kModelIndexBody]->transform_.translate_.y = 2.0f;
@@ -26,7 +26,14 @@ void Enemy::Initialize() {
 
 	obb_.size = models_[Joints::kModelIndexBody]->transform_.scale_;
 
+	life_ = 3;
+	hitCombo_ = -1;
+	parameter_ = 0.0f;
+
 	isDie_ = false;
+	isHit_ = false;
+	color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	SetColor();
 }
 
 void Enemy::InitializeRotGimmick() { parameter_ = 0.0f; }
@@ -62,38 +69,56 @@ void Enemy::UpdateMat()
 	obb_.SetOrientations(models_[Joints::kModelIndexBody]->transform_.worldMat_);
 }
 
+void Enemy::SetColor()
+{
+	for (std::unique_ptr<Model>& model : models_) {
+		model->color_ = color_;
+	}
+}
+
 void Enemy::Update() {
 
 	if (isDie_) {
-		transform_.translate_ = { 1000.0f,0.0f,1000.0f };
+		color_.w = std::clamp<float>(color_.w - 0.03f, 0.0f, 1.0f);
+		SetColor();
+
+		transform_.translate_ += skipVector_.Normalize() * 0.5f;
 	}
+	else if (!isHit_) {
+		UpdateRotGimmick();
 
-	UpdateRotGimmick();
+		const float speed = 0.2f;
 
-	const float speed = 0.2f;
+		const float pi = 3.14f;
 
-	const float pi = 3.14f;
+		const float angle = pi / 100.0f;
 
-	const float angle = pi / 100.0f;
+		transform_.rotate_.y += angle;
 
-	transform_.rotate_.y += angle;
+		transform_.rotate_.y = std::fmod(transform_.rotate_.y, 2.0f * pi);
 
-	transform_.rotate_.y = std::fmod(transform_.rotate_.y, 2.0f * pi);
+		Vector3 move = { 0.0f, 0.0f, -1.0f };
 
-	Vector3 move = {0.0f, 0.0f, -1.0f};
-	
-	move *= speed;
+		move *= speed;
 
-	move = move * Matrix4x4::MakeRotateXYZMatrix(transform_.rotate_);
+		move = move * Matrix4x4::MakeRotateXYZMatrix(transform_.rotate_);
 
-	transform_.translate_ += move;
+		transform_.translate_ += move;
+	}
+	else {
+		count_++;
+
+		if (count_ == 120) {
+			isHit_ = false;
+		}
+	}
 
 	UpdateMat();
 }
 
 void Enemy::Draw(const Matrix4x4& viewProjection) 
 {
-	if (!isDie_) {
+	if (color_.z != 0) {
 		for (std::unique_ptr<Model>& model : models_) {
 			model->Draw(viewProjection);
 		}

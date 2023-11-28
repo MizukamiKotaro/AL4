@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+class LockOn;
+
 class FollowCamera {
 public:
 
@@ -17,6 +19,8 @@ public:
 
 	void SetTarget(const Transform* target);
 
+	void SetLockOn(const LockOn* lockOn);
+
 	void Reset();
 
 private:
@@ -29,6 +33,8 @@ private:
 	Vector3 CalcOffset() const;
 private:
 	const Transform* target_ = nullptr;
+
+	const LockOn* lockOn_ = nullptr;
 
 	Camera camera_;
 

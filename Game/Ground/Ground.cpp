@@ -22,6 +22,8 @@ void Ground::Initialize()
 		i++;
 	}
 
+	models_[0]->transform_.scale_.x = 100.0f;
+	models_[2]->transform_.scale_.x = 100.0f;
 }
 
 void Ground::Update() {

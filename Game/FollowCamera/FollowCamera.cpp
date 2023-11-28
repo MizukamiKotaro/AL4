@@ -5,6 +5,7 @@
 #include "Input/Input.h"
 #include "Utils/Math/calc.h"
 #include "GlobalVariables/GlobalVariables.h"
+#include "Game/LockOn/LockOn.h"
 
 FollowCamera::FollowCamera()
 {
@@ -42,7 +43,24 @@ void FollowCamera::Update() {
 		}*/
 	}
 
-	camera_.transform_.rotate_.y = Calc::Lerp(camera_.transform_.rotate_.y, destinationAngleY_, interpolationRate_);
+	if (lockOn_ && lockOn_->ExistTarget()) {
+
+		Vector3 rotate = Vector3{ lockOn_->GetTargetPos().x - camera_.transform_.GetWorldPosition().x,0.0f,
+			lockOn_->GetTargetPos().z - camera_.transform_.GetWorldPosition().z }.Normalize();
+
+		camera_.transform_.SetOtherRotateMatrix({0.0f,0.0f,1.0f}, rotate, Transform::Y);
+
+		/*camera_.transform_.SetOtherRotMat(Matrix4x4::MakeRotateXMatrix(camera_.transform_.rotate_.x) *
+			camera_.transform_.GetOtherRotMat() * Matrix4x4::MakeRotateZMatrix(camera_.transform_.rotate_.z));*/
+	}
+	else {
+		if (camera_.transform_.isUseOtherRotateMat_) {
+			camera_.transform_.ClearOtherRotMat();
+		}
+		else {
+			camera_.transform_.rotate_.y = Calc::Lerp(camera_.transform_.rotate_.y, destinationAngleY_, interpolationRate_);
+		}
+	}
 	
 	if (target_) {
 		interTarget_ = Calc::Lerp(interTarget_, target_->worldPos_, 0.1f);
@@ -58,6 +76,11 @@ void FollowCamera::SetTarget(const Transform* target)
 {
 	target_ = target;
 	Reset();
+}
+
+void FollowCamera::SetLockOn(const LockOn* lockOn)
+{
+	lockOn_ = lockOn;
 }
 
 void FollowCamera::Reset()
@@ -100,7 +123,7 @@ Vector3 FollowCamera::CalcOffset() const
 {
 	Vector3 offset = { 0.0f, 8.0f, -70.0f };
 
-	offset = offset * Matrix4x4::MakeRotateXYZMatrix(camera_.transform_.rotate_);
+	offset = offset * camera_.transform_.GetRotMat();
 
 	return offset;
 }

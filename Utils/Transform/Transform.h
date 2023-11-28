@@ -5,6 +5,14 @@
 class Transform {
 
 public:
+
+	enum Type {
+		X,
+		Y,
+		Z,
+		All
+	};
+
 	Transform();
 
 	void Initialize();
@@ -25,9 +33,19 @@ public:
 
 	void SetOtherRotateMatrix(const Matrix4x4& mat);
 
-	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to);
+	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to, Type type = All);
 
-	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to, const Matrix4x4& multiplyMat);
+	void SetOtherRotateMatrix(const Vector3& from, const Vector3& to, const Matrix4x4& multiplyMat, Type type = All);
+
+	const Matrix4x4 GetOtherRotMat() const { return otherRotateMat_; }
+
+	void SetOtherRotMat(const Matrix4x4& mat, Type type = All) { otherRotateMat_ = mat; otherRotType_ = type; }
+
+	const Matrix4x4 GetRotMat() const;
+
+	const Matrix4x4 GetRotMat(Type type) const;
+
+	void ClearOtherRotMat();
 
 public:
 
@@ -45,6 +63,12 @@ public:
 
 	Matrix4x4 otherRotateMat_;
 
+	Type otherRotType_ = All;
+
 	bool isUseOtherRotateMat_;
+
+	Matrix4x4 rotMat_[4];
+private:
+
 
 };

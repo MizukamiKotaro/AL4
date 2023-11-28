@@ -28,6 +28,10 @@ Vector3 Ease::UseEase(const Vector3& a, const Vector3& b, float t) {
 
 float Ease::MakeEaseT(int nowFrame, int maxFrame, EaseType easeType, int index) {
 
+	if (maxFrame == 0) {
+		return 0;
+	}
+
 	float t = 1.0f / maxFrame * nowFrame;
 	float result = 0.0f;
 

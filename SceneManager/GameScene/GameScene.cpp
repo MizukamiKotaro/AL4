@@ -1,7 +1,20 @@
 #include "GameScene.h"
 #include <cassert>
 
-GameScene::GameScene() {}
+
+GameScene::GameScene() {
+	player_ = std::make_unique<Player>();
+	enemies_.emplace_back(std::make_unique<Enemy>(Vector3{10.0f,0.0f,120.0f}));
+	enemies_.emplace_back(std::make_unique<Enemy>(Vector3{ 20.0f,0.0f,110.0f }));
+	enemies_.emplace_back(std::make_unique<Enemy>(Vector3{ -10.0f,0.0f,120.0f }));
+	enemies_.emplace_back(std::make_unique<Enemy>(Vector3{ 40.0f,0.0f,110.0f }));
+	enemies_.emplace_back(std::make_unique<Enemy>(Vector3{ -30.0f,0.0f,110.0f }));
+	ground_ = std::make_unique<Ground>();
+	skydome_ = std::make_unique<Skydome>();
+	goal_ = std::make_unique<Goal>();
+	lockOn_ = std::make_unique<LockOn>();
+	particle_ = std::make_unique<Particle>();
+}
 
 GameScene::~GameScene() {}
 
@@ -10,30 +23,28 @@ void GameScene::Initialize() {
 	camera_.Initialize();
 	camera_.transform_.translate_.y = 2.0f;
 	
-	player_ = std::make_unique<Player>();
 	player_->Initialize();
+	particle_->Initialize();
 	
 	followCamera_.Initialize();
 	followCamera_.SetTarget(&player_->GetTransform());
 
 	player_->SetViewProjection(&followCamera_.GetCamera());
 
-	enemies_.emplace_back(std::make_unique<Enemy>());
 	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Initialize();
 	}
 
-	skydome_ = std::make_unique<Skydome>();
 	skydome_->Initialize();
 
-	ground_ = std::make_unique<Ground>();
 	ground_->Initialize();
 
-	goal_ = std::make_unique<Goal>();
 	goal_->Initialize();
 
-	lockOn_ = std::make_unique<LockOn>();
 	lockOn_->Initialize();
+
+	followCamera_.SetLockOn(lockOn_.get());
+	player_->SetLockOn(lockOn_.get());
 }
 
 void GameScene::Update() {
@@ -68,9 +79,10 @@ void GameScene::Update() {
 	player_->Collision(&goal_->GetTransform());
 
 	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
-		player_->Collision(&enemy->GetTransform());
-		player_->Collision(enemy->GetOBB(), enemy->GetIsDiePtr());
+		player_->Collision(enemy.get(), particle_.get());
 	}
+
+	particle_->Update();
 
 	followCamera_.Update();
 
@@ -89,6 +101,8 @@ void GameScene::Draw()
 	player_->Draw(camera_.GetViewProjection());
 
 	lockOn_->Draw(camera_.GetViewProjection());
+
+	particle_->Draw(camera_.GetViewProjection());
 
 	for (const std::unique_ptr<Enemy>& enemy : enemies_) {
 		enemy->Draw(camera_.GetViewProjection());

@@ -104,6 +104,9 @@
     <Filter Include="Utils\ScreenPrint">
       <UniqueIdentifier>{0bc5a5a8-6399-416b-9966-0668869dc0fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle">
+      <UniqueIdentifier>{a07d2bd9-5fcd-46f5-9858-253bc5b4923f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -240,6 +243,9 @@
     </ClCompile>
     <ClCompile Include="Utils\ScreenPrint\ScreenPrint.cpp">
       <Filter>Utils\ScreenPrint</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\Particle.cpp">
+      <Filter>Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +395,9 @@
     </ClInclude>
     <ClInclude Include="Utils\ScreenPrint\ScreenPrint.h">
       <Filter>Utils\ScreenPrint</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\Particle.h">
+      <Filter>Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

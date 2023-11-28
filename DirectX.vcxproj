@@ -178,6 +178,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelCommon\ModelCommon.cpp" />
     <ClCompile Include="ModelCommon\Model\Model.cpp" />
+    <ClCompile Include="Particle\Particle.cpp" />
     <ClCompile Include="SceneManager\GameScene\GameScene.cpp" />
     <ClCompile Include="SpriteCommon\SpriteCommon.cpp" />
     <ClCompile Include="SpriteCommon\Sprite\Sprite.cpp" />
@@ -226,6 +227,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Kyoko\WinApp\WinApp.h" />
     <ClInclude Include="ModelCommon\ModelCommon.h" />
     <ClInclude Include="ModelCommon\Model\Model.h" />
+    <ClInclude Include="Particle\Particle.h" />
     <ClInclude Include="SceneManager\GameScene\GameScene.h" />
     <ClInclude Include="SpriteCommon\SpriteCommon.h" />
     <ClInclude Include="SpriteCommon\Sprite\Sprite.h" />

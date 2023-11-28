@@ -8,7 +8,7 @@
 class Enemy {
 public:
 
-	Enemy();
+	Enemy(const Vector3& pos);
 
 	/// <summary>
 	/// 初期化
@@ -42,6 +42,19 @@ private:
 
 	void UpdateMat();
 
+	void SetColor();
+
+public:
+	int life_;
+
+	int hitCombo_;
+
+	bool isHit_;
+
+	int count_;
+
+	Vector3 skipVector_;
+
 private:
 	enum Joints { kModelIndexBody, kModelIndexUpJoint };
 
@@ -54,4 +67,8 @@ private:
 	OBB obb_;
 
 	bool isDie_;
+
+	Vector3 firstPos_;
+
+	Vector4 color_;
 };

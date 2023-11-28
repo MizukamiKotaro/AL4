@@ -8,14 +8,18 @@
 #include "GlobalVariables/GlobalVariables.h"
 #include "Utils/Math/calc.h"
 #include "Utils/Collision/Collision.h"
+#include "Game/LockOn/LockOn.h"
+#include <algorithm>
+#include "Game/Enemy/Enemy.h"
+#include "Particle/Particle.h"
 
 const std::array<Player::ConstAttack, Player::ComboNum> Player::kConstAttacks_ =
 {
 	{
 		// 振りかぶり、攻撃前硬直、攻撃振り時間、硬直<frame>各フェーズの移動速さ
-		{0,0,20,0,0.0f,0.0f,0.15f},
-		{15,10,15,0,0.2f,0.0f,0.0f},
-		{15,10,15,30,0.2f,0.0f,0.0f},
+		{10,5,10,0,0.2f,0.0f,0.0f},
+		{15,20,15,0,0.3f,0.0f,0.0f},
+		{10,30,5,30,0.4f,0.0f,0.0f},
 	}
 };
 
@@ -83,6 +87,8 @@ void Player::Initialize()
 	isDie_ = false;
 	
 	UpdateMat();
+
+	workAttack_ = WorkAttack();
 }
 
 void Player::SetGlobalVariable()
@@ -224,6 +230,32 @@ void Player::Collision(const OBB& obb, bool* flag)
 	}
 }
 
+void Player::Collision(Enemy* enemy, Particle* particle)
+{
+	if (behavior_ == Behavior::kAttack && behaviorAttack_ == BehaviorAttack::kAttack) {
+		if (Collision::IsCollision(weaponOBB_, enemy->GetOBB()) && enemy->life_ != 0) {
+			if (enemy->hitCombo_ != workAttack_.comboIndex) {
+				enemy->hitCombo_ = workAttack_.comboIndex;
+				enemy->life_--;
+				enemy->isHit_ = true;
+				enemy->count_ = 0;
+				enemy->skipVector_ = enemy->GetCenterPos() - transform_.worldPos_;
+				particle->Begin(enemy->GetCenterPos());
+				if (enemy->life_ == 0) {
+					*enemy->GetIsDiePtr() = true;
+				}
+			}
+		}
+		else {
+			enemy->hitCombo_ = -1;
+		}
+	}
+
+	if (enemy->life_ != 0 && transform_.IsCollisionXZ(enemy->GetTransform())) {
+		isDie_ = true;
+	}
+}
+
 void Player::InitializeFloatingGimmick() { floatingParameter_ = 0.0f; }
 
 void Player::UpdateFloatingGimmick() {
@@ -248,7 +280,17 @@ void Player::UpdateFloatingGimmick() {
 	models_[kModelIndexR_arm]->transform_.rotate_.z = std::sinf(floatingParameter_) * angle;
 }
 
-void Player::BehaviorRootInitialize() { InitializeFloatingGimmick(); }
+void Player::BehaviorRootInitialize() { 
+	InitializeFloatingGimmick();
+
+	models_[kModelIndexHead]->transform_.translate_.y = 3.0f;
+	models_[kModelIndexL_arm]->transform_.translate_ = { 1.0f, 2.5f, 0.0f };
+	models_[kModelIndexR_arm]->transform_.translate_ = { -1.0f, 2.5f, 0.0f };
+	cube_->transform_.parent_ = &models_[kModelIndexWeapon]->transform_;
+
+	models_[kModelIndexL_arm]->transform_.rotate_ = {};
+	models_[kModelIndexR_arm]->transform_.rotate_ = {};
+}
 
 void Player::BehaviorRootUpdate() {
 
@@ -264,7 +306,7 @@ void Player::BehaviorRootUpdate() {
 
 	move = move.Normalize() * speed;
 
-	move = move * Matrix4x4::MakeRotateXYZMatrix(camera_->transform_.rotate_);
+	move = move * camera_->transform_.GetRotMat();
 
 	if (input->PressedGamePadButton(Input::GamePadButton::A) && !isJump_) {
 		isJump_ = true;
@@ -282,20 +324,20 @@ void Player::BehaviorRootUpdate() {
 
 	const float pi = std::numbers::pi_v<float>;
 
-	if (velocity_.x == 0 && velocity_.z == 0) {
-		// プレイヤーがカメラを向く処理
-		/*transform_.rotate_.y = camera_->transform_.rotate_.y;
-		transform_.isUseOtherRotateMat_ = false;*/
-	}
-	else {
+	if (velocity_.x != 0 || velocity_.z != 0) {
 
 		Vector3 rotate = Vector3{ velocity_.x,0.0f,velocity_.z }.Normalize();
 		Vector3 pos = Vector3{ camera_->transform_.worldPos_.x,0.0f,camera_->transform_.worldPos_.z };
 		Vector3 pos1 = Vector3{ transform_.worldPos_.x,0.0f,transform_.worldPos_.z };
 		Vector3 rotate1 = Vector3{ pos - pos1 }.Normalize();
 
-		transform_.SetOtherRotateMatrix(rotate1, rotate, Matrix4x4::MakeRotateYMatrix(camera_->transform_.rotate_.y));
+		transform_.SetOtherRotateMatrix(rotate1, rotate, camera_->transform_.GetRotMat(Transform::Y));
+	}
+	else if (lockOn_ && lockOn_->ExistTarget()) {
+		Vector3 rotate = Vector3{ lockOn_->GetTargetPos().x - transform_.GetWorldPosition().x,0.0f,
+		lockOn_->GetTargetPos().z - transform_.GetWorldPosition().z }.Normalize();
 
+		transform_.SetOtherRotateMatrix({ 0.0f,0.0f,-1.0f }, rotate);
 	}
 
 	if (input->PressedGamePadButton(Input::GamePadButton::B) && !isJump_) {
@@ -362,10 +404,10 @@ void Player::AttackBehaviorExtra2Initialize() {
 	easeStartRot_.push_back(models_[kModelIndexBody]->transform_.rotate_);
 	easeEndRot_.push_back(models_[kModelIndexBody]->transform_.rotate_);
 
-	easeStartRot_.push_back(models_[kModelIndexL_arm]->transform_.rotate_);
+	easeStartRot_.push_back({ pi / 2.0f, 0.0f, 0.0f });
 	easeEndRot_.push_back({ pi / 6.0f + pi, 0.0f, 0.0f });
 
-	easeStartRot_.push_back(models_[kModelIndexR_arm]->transform_.rotate_);
+	easeStartRot_.push_back({ pi / 2.0f, 0.0f, 0.0f });
 	easeEndRot_.push_back({ pi / 6.0f + pi, 0.0f, 0.0f });
 
 	easeStartRot_.push_back({ -pi / 2.0f, 0.0f, 0.0f });
@@ -373,17 +415,37 @@ void Player::AttackBehaviorExtra2Initialize() {
 }
 
 void Player::AttackBehaviorExtra2Update() {
-	const int maxFrame = 15;
 	count_++;
 
-	models_[kModelIndexL_arm]->transform_.rotate_ = Ease::UseEase(
-		easeStartRot_[kLArm], easeEndRot_[kLArm], count_, maxFrame, Ease::Constant);
-	models_[kModelIndexR_arm]->transform_.rotate_ = Ease::UseEase(
-		easeStartRot_[kRArm], easeEndRot_[kRArm], count_, maxFrame, Ease::Constant);
-	models_[kModelIndexWeapon]->transform_.rotate_ = Ease::UseEase(
-		easeStartRot_[kWeapon], easeEndRot_[kWeapon], count_, maxFrame, Ease::Constant);
+	int count = std::clamp<int>(count_, 0, kConstAttacks_[workAttack_.comboIndex].aticipationTime);
 
-	if (count_ == maxFrame) {
+	models_[kModelIndexL_arm]->transform_.rotate_ = Ease::UseEase(
+		easeStartRot_[kLArm], easeEndRot_[kLArm], count, kConstAttacks_[workAttack_.comboIndex].aticipationTime, Ease::Constant);
+	models_[kModelIndexR_arm]->transform_.rotate_ = Ease::UseEase(
+		easeStartRot_[kRArm], easeEndRot_[kRArm], count, kConstAttacks_[workAttack_.comboIndex].aticipationTime, Ease::Constant);
+	models_[kModelIndexWeapon]->transform_.rotate_ = Ease::UseEase(
+		easeStartRot_[kWeapon], easeEndRot_[kWeapon], count, kConstAttacks_[workAttack_.comboIndex].aticipationTime, Ease::Constant);
+
+	float distance = Vector3(lockOn_->GetTargetPos() - transform_.GetWorldPosition()).Length();
+	// 距離しきい値
+	const float threshold = 1.0f;
+
+	float speed = kConstAttacks_[workAttack_.comboIndex].anticipationSpeed;
+
+	if (speed > distance - threshold) {
+		speed = distance - threshold;
+	}
+
+	Vector3 move = { 0.0f,0.0f,-speed };
+
+	move = move * transform_.GetRotMat();
+
+	velocity_.x = move.x;
+	velocity_.z = move.z;
+
+	transform_.translate_ += velocity_;
+
+	if (uint32_t(count_) >= kConstAttacks_[workAttack_.comboIndex].aticipationTime) {
 		behaviorAttackRequest_ = BehaviorAttack::kAttack;
 	}
 }
@@ -410,17 +472,19 @@ void Player::AttackBehaviorAttackInitialize() {
 
 void Player::AttackBehaviorAttackUpdate() {
 
-	const int maxFrame = 10;
+	
 	count_++;
 
-	models_[kModelIndexL_arm]->transform_.rotate_ = Ease::UseEase(
-		easeStartRot_[kLArm], easeEndRot_[kLArm], count_, maxFrame, Ease::Constant);
-	models_[kModelIndexR_arm]->transform_.rotate_ = Ease::UseEase(
-		easeStartRot_[kRArm], easeEndRot_[kRArm], count_, maxFrame, Ease::Constant);
-	models_[kModelIndexWeapon]->transform_.rotate_ = Ease::UseEase(
-		easeStartRot_[kWeapon], easeEndRot_[kWeapon], count_, maxFrame, Ease::Constant);
+	int count = std::clamp<int>(count_ - kConstAttacks_[workAttack_.comboIndex].chargeTime, 0, kConstAttacks_[workAttack_.comboIndex].swingTime);
 
-	if (count_ == maxFrame) {
+	models_[kModelIndexL_arm]->transform_.rotate_ = Ease::UseEase(
+		easeStartRot_[kLArm], easeEndRot_[kLArm], count, kConstAttacks_[workAttack_.comboIndex].swingTime, Ease::Constant);
+	models_[kModelIndexR_arm]->transform_.rotate_ = Ease::UseEase(
+		easeStartRot_[kRArm], easeEndRot_[kRArm], count, kConstAttacks_[workAttack_.comboIndex].swingTime, Ease::Constant);
+	models_[kModelIndexWeapon]->transform_.rotate_ = Ease::UseEase(
+		easeStartRot_[kWeapon], easeEndRot_[kWeapon], count, kConstAttacks_[workAttack_.comboIndex].swingTime, Ease::Constant);
+
+	if (uint32_t(count) >= kConstAttacks_[workAttack_.comboIndex].swingTime) {
 		behaviorAttackRequest_ = BehaviorAttack::kRigor;
 	}
 }
@@ -429,10 +493,9 @@ void Player::AttackBehaviorRigorInitialize() { count_ = 0; }
 
 void Player::AttackBehaviorRigorUpdate() {
 
-	const int maxFrame = 20;
 	count_++;
 
-	if (count_ == maxFrame) {
+	if (uint32_t(count_) >= kConstAttacks_[workAttack_.comboIndex].recoveryTime) {
 		behaviorAttackRequest_ = BehaviorAttack::kReturn;
 	}
 }
@@ -498,7 +561,11 @@ void Player::BehaviorDashUpdate()
 
 }
 
-void Player::BehaviorAttackInitialize() { behaviorAttackRequest_ = BehaviorAttack::kExtra; }
+void Player::BehaviorAttackInitialize() { 
+	behaviorAttackRequest_ = BehaviorAttack::kExtra2;
+	workAttack_.attackParameter = 0;
+	workAttack_.comboIndex = 0;
+}
 
 void Player::BehaviorAttackUpdate() {
 
@@ -558,28 +625,38 @@ void Player::BehaviorAttackUpdate() {
 		break;
 	}
 
+	if (lockOn_ && lockOn_->ExistTarget()) {
+		Vector3 rotate = Vector3{ lockOn_->GetTargetPos().x - transform_.GetWorldPosition().x,0.0f,
+		lockOn_->GetTargetPos().z - transform_.GetWorldPosition().z }.Normalize();
 
-	/*if (workAttack_.comboIndex < ComboNum - 1) {
+		transform_.SetOtherRotateMatrix({ 0.0f,0.0f,-1.0f }, rotate);
+	}
+
+
+	if (workAttack_.comboIndex < ComboNum - 1) {
 		if (Input::GetInstance()->PressedGamePadButton(Input::GamePadButton::B)) {
 			workAttack_.comboNext = true;
 		}
 	}
 
 	if (++workAttack_.attackParameter >=
-		kConstAttacks_[workAttack_.comboIndex].aticipationTime + kConstAttacks_[workAttack_.comboIndex].chargeTIme +
+		kConstAttacks_[workAttack_.comboIndex].aticipationTime + kConstAttacks_[workAttack_.comboIndex].chargeTime +
 		kConstAttacks_[workAttack_.comboIndex].recoveryTime + kConstAttacks_[workAttack_.comboIndex].swingTime) {
 
 		if (workAttack_.comboNext) {
 
 			workAttack_.comboNext = false;
 
+			behaviorAttackRequest_ = BehaviorAttack::kExtra2;
 
+			workAttack_.comboIndex++;
 
+			workAttack_.attackParameter = 0;
 		}
 		else {
 			behaviorRequest_ = Behavior::kRoot;
 		}
-	}*/
+	}
 }
 
 void (Player::* Player::spStateInitFuncTable[])() {

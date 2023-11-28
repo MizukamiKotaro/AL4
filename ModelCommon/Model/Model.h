@@ -69,6 +69,7 @@ private:
 public:
 
 	Transform transform_;
+	Vector4 color_;
 
 private:
 	Matrix4x4 uvMatrix_;

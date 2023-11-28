@@ -9,6 +9,9 @@
 #include <array>
 
 class Camera;
+class LockOn;
+class Enemy;
+class Particle;
 
 class Player {
 public:
@@ -18,7 +21,7 @@ public:
 		// 振りかぶりの時間
 		uint32_t aticipationTime;
 		// ための時間
-		uint32_t chargeTIme;
+		uint32_t chargeTime;
 		// 攻撃振りの時間
 		uint32_t swingTime;
 		// 硬直時間
@@ -70,7 +73,11 @@ public:
 
 	void Collision(const OBB& obb, bool* flag);
 
+	void Collision(Enemy* enemy, Particle* particle);
+
 	bool GetIsDie() { return isDie_; }
+
+	void SetLockOn(const LockOn* lockOn) { lockOn_ = lockOn; }
 
 private:
 
@@ -177,6 +184,8 @@ private:
 	Transform transform_;
 
 	const Camera* camera_;
+
+	const LockOn* lockOn_;
 
 	std::vector<std::unique_ptr<Model>> models_;
 

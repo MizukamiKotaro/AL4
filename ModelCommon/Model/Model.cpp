@@ -18,7 +18,7 @@ Model::Model(const std::string& directoryPath, const std::string& fileName)
 	materialResource_ = modelCommon->CreateBufferResource(sizeof(Material));
 
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
-	*materialData_ = { Vector4(1.0f, 1.0f, 1.0f, 1.0f) , 0 };
+	*materialData_ = { Vector4(1.0f, 1.0f, 1.0f, 1.0f) , 2 };
 	materialData_->uvTransform = Matrix4x4::MakeIdentity4x4();
 
 	//WVP用のリソースを作る。Matrix4x4　1つ分のサイズを用意する
@@ -60,6 +60,8 @@ Model::Model(const std::string& directoryPath, const std::string& fileName)
 	uvPos_ = { 0.0f,0.0f,0.0f };
 
 	uvMatrix_ = Matrix4x4::MakeAffinMatrix(uvScale_, uvRotate_, uvPos_);
+
+	color_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 Model::~Model()
@@ -89,6 +91,7 @@ void Model::Draw(const Matrix4x4& viewProjection)
 	transformationMatrixData_->World = transform_.worldMat_;
 	transformationMatrixData_->WVP = transform_.worldMat_ * viewProjection;
 	materialData_->uvTransform = uvMatrix_;
+	materialData_->color = color_;
 
 	TextureManager* texManager = TextureManager::GetInstance();
 
