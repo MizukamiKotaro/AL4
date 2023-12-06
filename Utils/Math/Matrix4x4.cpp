@@ -415,10 +415,10 @@ Matrix4x4 Matrix4x4::DirectionToDirection(const Vector3& from, const Vector3& to
 
 	if (u.x == -v.x && u.y == -v.y && u.z == -v.z) {
 		if (u.x != 0 || u.y != 0) {
-			n = { u.y,-u.x,0.0f };
+			n = Vector3{ u.y,-u.x,0.0f }.Normalize();
 		}
 		else if (u.x != 0 || u.z != 0) {
-			n = { u.z,0.0f,-u.x };
+			n = Vector3{ u.z,0.0f,-u.x }.Normalize();
 		}
 
 		cosfTheta = -1;

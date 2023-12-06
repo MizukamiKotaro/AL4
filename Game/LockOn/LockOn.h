@@ -57,6 +57,6 @@ private:
 
 	float minDistance_ = 40.0f;
 	float maxDistance_ = 140.0f;
-	float halfAngle_ = std::numbers::pi_v<float> / 6;
+	float halfAngle_ = std::numbers::pi_v<float> / 12;
 	float sinAngle_ = std::sinf(halfAngle_);
 };
