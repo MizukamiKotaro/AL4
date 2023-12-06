@@ -1,6 +1,7 @@
 #include "Quaternion.h"
 #include <cmath>
 #include "Utils/Math/calc.h"
+#include "Utils/Math/Matrix4x4.h"
 
 Quaternion operator+(const Quaternion& obj1, const Quaternion& obj2) {
 	Quaternion tmp = {};
@@ -100,4 +101,25 @@ Quaternion Quaternion::Normalize()
 Quaternion Quaternion::Inverse()
 {
 	return this->Conjugate() / std::powf(this->Norm(), 2.0f);
+}
+
+Matrix4x4 Quaternion::MakeRotateMatrix()
+{
+	Matrix4x4 result = {
+		std::powf(this->w,2) + std::powf(this->x,2) - std::powf(this->y,2) - std::powf(this->z,2),
+		2.0f * (this->x * this->y + this->w * this->z),2.0f * (this->x * this->z - this->w * this->y),0.0f,
+		2.0f * (this->x * this->y - this->w * this->z),
+		std::powf(this->w,2) - std::powf(this->x,2) + std::powf(this->y,2) - std::powf(this->z,2),
+		2.0f * (this->y * this->z + this->w * this->x),0.0f,
+		2.0f * (this->x * this->z + this->w * this->y),2.0f * (this->y * this->z - this->w * this->x),
+		std::powf(this->w,2) - std::powf(this->x,2) - std::powf(this->y,2) + std::powf(this->z,2),0.0f,
+		0.0f,0.0f,0.0f,1.0f
+	};
+
+	return result;
+}
+
+Vector3 Quaternion::RotateVector(const Vector3& vector)
+{
+	return vector * this->MakeRotateMatrix();
 }

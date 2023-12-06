@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector3.h"
 
+struct Matrix4x4;
+
 struct Quaternion
 {
 public:
@@ -55,6 +57,10 @@ public:
 	Quaternion Normalize();
 
 	Quaternion Inverse();
+
+	Matrix4x4 MakeRotateMatrix();
+
+	Vector3 RotateVector(const Vector3& vector);
 
 public:
 	float x;

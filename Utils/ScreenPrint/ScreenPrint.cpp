@@ -20,6 +20,14 @@ void ScreenPrint(const char* comment, const Quaternion& qua)
 	ImGui::End();
 }
 
+void ScreenPrint(const char* comment, const Vector3& value)
+{
+	ImGui::Begin("PrintVector3");
+	ImGui::Text(comment);
+	ImGui::Text("%6.3f  %6.3f  %6.3f", value.x, value.y, value.z);
+	ImGui::End();
+}
+
 void ScreenPrint(const char* comment, const float& value)
 {
 	ImGui::Begin("PrintFloat");

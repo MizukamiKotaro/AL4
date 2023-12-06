@@ -97,15 +97,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 	/*std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
 	gameScene->Initialize();*/
 
-	Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
-	Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
-	Quaternion identity = Quaternion::Identity();
-	Quaternion conj = q1.Conjugate();
-	Quaternion inv = q1.Inverse();
-	Quaternion normal = q1.Normalize();
-	Quaternion mul1 = q1 * q2;
-	Quaternion mul2 = q2 * q1;
-	float norm = q1.Norm();
+	Quaternion rotation = Quaternion::MakeRotateAxisAngle({ 1.0f,0.4f,-0.2f }, 0.45f);
+	Vector3 pointY = { 2.1f,-0.9f,1.3f };
+	Matrix4x4 rotateMatrix = rotation.MakeRotateMatrix();
+	Vector3 rotateByQuaternion = rotation.RotateVector(pointY);
+	Vector3 rotateByMatrix = pointY * rotateMatrix;
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -130,13 +126,10 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの更新
 
 		//gameScene->Update();
-		ScreenPrint("Identity", identity);
-		ScreenPrint("Conjugate", conj);
-		ScreenPrint("Inverse", inv);
-		ScreenPrint("Normalize", normal);
-		ScreenPrint("Multiply(q1,q2)", mul1);
-		ScreenPrint("Multiply(q2,q1)", mul2);
-		ScreenPrint("Norm", norm);
+		ScreenPrint("rotation", rotation);
+		ScreenPrint("rotateMatrix", rotateMatrix);
+		ScreenPrint("rotateByQuaternion", rotateByQuaternion);
+		ScreenPrint("rotateByMatrix", rotateByMatrix);
 
 #pragma endregion 最初のシーンの更新
 

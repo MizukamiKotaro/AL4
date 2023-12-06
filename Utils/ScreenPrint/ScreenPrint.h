@@ -7,4 +7,6 @@ void ScreenPrint(const char* comment, const Matrix4x4& mat);
 
 void ScreenPrint(const char* comment, const Quaternion& qua);
 
+void ScreenPrint(const char* comment, const Vector3& value);
+
 void ScreenPrint(const char* comment, const float& value);
