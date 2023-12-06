@@ -11,3 +11,19 @@ void ScreenPrint(const char* comment, const Matrix4x4& mat)
 	ImGui::Text("%6.3f  %6.3f  %6.3f  %6.3f", mat.m[3][0], mat.m[3][1], mat.m[3][2], mat.m[3][3]);
 	ImGui::End();
 }
+
+void ScreenPrint(const char* comment, const Quaternion& qua)
+{
+	ImGui::Begin("PrintQuaternion");
+	ImGui::Text(comment);
+	ImGui::Text("%6.3f  %6.3f  %6.3f  %6.3f", qua.x, qua.y, qua.z, qua.w);
+	ImGui::End();
+}
+
+void ScreenPrint(const char* comment, const float& value)
+{
+	ImGui::Begin("PrintFloat");
+	ImGui::Text(comment);
+	ImGui::Text("%6.3f", value);
+	ImGui::End();
+}

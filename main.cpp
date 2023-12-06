@@ -12,6 +12,7 @@
 #include "GlobalVariables/GlobalVariables.h"
 
 #include "Utils/ScreenPrint/ScreenPrint.h"
+#include "Utils/Math/Quaternion.h"
 
 static ResourceLeackChecker leakCheck;
 
@@ -96,13 +97,15 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 	/*std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
 	gameScene->Initialize();*/
 
-	Vector3 from0 = Vector3({ 1.0f,0.7f,0.5f }).Normalize();
-	Vector3 to0 = -from0;
-	Vector3 from1= Vector3({ -0.6f,0.9f,0.2f }).Normalize();
-	Vector3 to1 = Vector3({ 0.4f,0.7f,-0.5f }).Normalize();
-	Matrix4x4 rotateMat0 = Matrix4x4::DirectionToDirection({ 1.0f,0.0f,0.0f }, { -1.0f,0.0f,0.0f });
-	Matrix4x4 rotateMat1 = Matrix4x4::DirectionToDirection(from0, to0);
-	Matrix4x4 rotateMat2 = Matrix4x4::DirectionToDirection(from1, to1);
+	Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
+	Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
+	Quaternion identity = Quaternion::Identity();
+	Quaternion conj = q1.Conjugate();
+	Quaternion inv = q1.Inverse();
+	Quaternion normal = q1.Normalize();
+	Quaternion mul1 = q1 * q2;
+	Quaternion mul2 = q2 * q1;
+	float norm = q1.Norm();
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -127,9 +130,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの更新
 
 		//gameScene->Update();
-		ScreenPrint("RotateMatrix0", rotateMat0);
-		ScreenPrint("RotateMatrix1", rotateMat1);
-		ScreenPrint("RotateMatrix2", rotateMat2);
+		ScreenPrint("Identity", identity);
+		ScreenPrint("Conjugate", conj);
+		ScreenPrint("Inverse", inv);
+		ScreenPrint("Normalize", normal);
+		ScreenPrint("Multiply(q1,q2)", mul1);
+		ScreenPrint("Multiply(q2,q1)", mul2);
+		ScreenPrint("Norm", norm);
 
 #pragma endregion 最初のシーンの更新
 

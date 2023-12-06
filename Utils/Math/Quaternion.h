@@ -44,6 +44,18 @@ public:
 
 	static Quaternion MakeRotateAxisAngle(const Vector3& axis, float angle);
 
+	static Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
+
+	static Quaternion Identity();
+	// 共役Quaternionを返す
+	Quaternion Conjugate();
+
+	float Norm();
+
+	Quaternion Normalize();
+
+	Quaternion Inverse();
+
 public:
 	float x;
 	float y;
@@ -53,6 +65,7 @@ public:
 
 Quaternion operator+(const Quaternion& obj1, const Quaternion& obj2);
 Quaternion operator-(const Quaternion& obj1, const Quaternion& obj2);
+Quaternion operator*(const Quaternion obj1, const Quaternion& obj2);
 Quaternion operator*(const Quaternion& obj, float a);
 Quaternion operator*(float a, const Quaternion& obj);
 Quaternion operator/(const Quaternion& obj, float a);
