@@ -29,7 +29,7 @@ void FollowCamera::Update() {
 
 	ApplyGlobalVariable();
 
-	const float rotSpeed = 0.01f;
+	const float rotSpeed = 0.03f;
 
 	destinationAngleY_ -= Input::GetInstance()->GetGamePadRStick().x * rotSpeed;
 
