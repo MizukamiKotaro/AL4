@@ -64,6 +64,11 @@ Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t
 		dot = -dot;
 	}
 
+	if (dot >= 1.0f - 0.0005f) {
+		// 0除算とsin(theta)が0に近くなる場合の処理
+		return (1.0f - t) * a + t * b;
+	}
+
 	float theta = std::acosf(dot);
 
 	float scale0 = std::sinf((1.0f - t) * theta) / std::sinf(theta);

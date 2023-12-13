@@ -98,7 +98,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 	gameScene->Initialize();*/
 
 	Quaternion rot0 = Quaternion::MakeRotateAxisAngle({ 0.71f,0.71f,0.0f }, 0.3f);
-	Quaternion rot1 = Quaternion::MakeRotateAxisAngle({ 0.71f,0.0f,0.71f }, 3.141592f);
+	Quaternion rot1 = -1 * rot0;
 
 	Quaternion interpolate0 = Quaternion::Slerp(rot0, rot1, 0.0f);
 	Quaternion interpolate1 = Quaternion::Slerp(rot0, rot1, 0.3f);
