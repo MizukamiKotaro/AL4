@@ -97,11 +97,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 	/*std::unique_ptr<GameScene> gameScene = std::make_unique<GameScene>();
 	gameScene->Initialize();*/
 
-	Quaternion rotation = Quaternion::MakeRotateAxisAngle({ 1.0f,0.4f,-0.2f }, 0.45f);
-	Vector3 pointY = { 2.1f,-0.9f,1.3f };
-	Matrix4x4 rotateMatrix = rotation.MakeRotateMatrix();
-	Vector3 rotateByQuaternion = rotation.RotateVector(pointY);
-	Vector3 rotateByMatrix = pointY * rotateMatrix;
+	Quaternion rot0 = Quaternion::MakeRotateAxisAngle({ 0.71f,0.71f,0.0f }, 0.3f);
+	Quaternion rot1 = Quaternion::MakeRotateAxisAngle({ 0.71f,0.0f,0.71f }, 3.141592f);
+
+	Quaternion interpolate0 = Quaternion::Slerp(rot0, rot1, 0.0f);
+	Quaternion interpolate1 = Quaternion::Slerp(rot0, rot1, 0.3f);
+	Quaternion interpolate2 = Quaternion::Slerp(rot0, rot1, 0.5f);
+	Quaternion interpolate3 = Quaternion::Slerp(rot0, rot1, 0.7f);
+	Quaternion interpolate4 = Quaternion::Slerp(rot0, rot1, 1.0f);
 
 #pragma endregion 最初のシーンの初期化
 	
@@ -126,10 +129,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR lpCmdLine, _In
 #pragma region 最初のシーンの更新
 
 		//gameScene->Update();
-		ScreenPrint("rotation", rotation);
-		ScreenPrint("rotateMatrix", rotateMatrix);
-		ScreenPrint("rotateByQuaternion", rotateByQuaternion);
-		ScreenPrint("rotateByMatrix", rotateByMatrix);
+		ScreenPrint("interpolate0, 0.0f", interpolate0);
+		ScreenPrint("interpolate1, 0.3f", interpolate1);
+		ScreenPrint("interpolate2, 0.5f", interpolate2);
+		ScreenPrint("interpolate3, 0.7f", interpolate3);
+		ScreenPrint("interpolate4, 1.0f", interpolate4);
 
 #pragma endregion 最初のシーンの更新
 

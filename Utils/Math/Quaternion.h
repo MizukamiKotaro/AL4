@@ -44,6 +44,10 @@ public:
 		this->w /= a;
 	}
 
+	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
+
+	static float Dot(const Quaternion& q0, const Quaternion& q1);
+
 	static Quaternion MakeRotateAxisAngle(const Vector3& axis, float angle);
 
 	static Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);

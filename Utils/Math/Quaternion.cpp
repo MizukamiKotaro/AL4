@@ -51,6 +51,37 @@ Quaternion operator/(const Quaternion& obj, float a) {
 	return tmp;
 }
 
+Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t)
+{
+	Quaternion a = q0;
+	a = a.Normalize();
+	Quaternion b = q1;
+	b = b.Normalize();
+
+	float dot = Dot(a, b);
+	if (dot < 0) {
+		a = a * (-1);
+		dot = -dot;
+	}
+
+	float theta = std::acosf(dot);
+
+	float scale0 = std::sinf((1.0f - t) * theta) / std::sinf(theta);
+	float scale1 = std::sinf(t * theta) / std::sinf(theta);
+
+	return scale0 * a + scale1 * b;
+}
+
+float Quaternion::Dot(const Quaternion& q0, const Quaternion& q1)
+{
+	Quaternion a = q0;
+	a = a.Normalize();
+	Quaternion b = q1;
+	b = b.Normalize();
+
+	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+}
+
 Quaternion Quaternion::MakeRotateAxisAngle(const Vector3& axis, float angle)
 {
 	Quaternion result = { 0.0f,0.0f,0.0f,0.0f };
